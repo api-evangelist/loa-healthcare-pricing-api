@@ -6,7 +6,7 @@ description: >-
   Registry and Loa-reviewed provider submissions.
 url: https://loa-healthcare-pricing-api.apievangelist.com/apis.yml
 created: '2026-07-28'
-modified: '2026-07-28'
+modified: '2026-08-02'
 specificationVersion: '0.21'
 tags:
   - healthcare
@@ -46,9 +46,13 @@ apis:
       - llms.txt
     properties:
       - type: OpenAPI
+        url: openapi/loa-healthcare-pricing-api-openapi.json
+      - type: OpenAPI
         url: https://www.loacare.com/api/v1/openapi.json
       - type: Documentation
         url: https://www.loacare.com/provider/docs
+      - type: APIsJSON
+        url: https://www.loacare.com/apis.json
   - name: Loa Healthcare Pricing MCP Server
     description: >-
       Hosted/remote MCP server 'LOA Healthcare Pricing' v1.0.0 over Streamable HTTP with 12 tools for CPT search,
@@ -85,3 +89,20 @@ generated:
   model: claude-opus-4-8
   confidence: 95
   at: '2026-07-28T12:04:57.353Z'
+x-evidence:
+  verified: '2026-08-02'
+  request: api-evangelist/loa-healthcare-pricing-api#1
+  probes:
+    - https://www.loacare.com/api/v1/openapi.json -> HTTP 200, OpenAPI 3.1.0, 6 paths / 6 ops / 19 schemas
+    - https://www.loacare.com/apis.json -> HTTP 200, advertised example now uses q=
+    - https://www.loacare.com/api/v1/entities/search?q=hospital&state=Texas&limit=1 -> HTTP 200, one Texas hospital
+  resolved: >-
+    The search-parameter mismatch flagged at profile generation — apis.json advertising query= while the
+    OpenAPI defines q — was fixed by the provider and confirmed resolved. The stale note is removed from
+    PROFILE.md.
+  still_open: >-
+    OpenAPI info.version is 0.1.0 while the document is OpenAPI 3.1.0. Left flagged; the provider did not
+    claim to have changed it and it is still true.
+  note: >-
+    The OpenAPI is now held locally as well as referenced by URL. Advertised spec URLs across the catalog
+    go stale, and a local copy is what the profile is actually built from.
