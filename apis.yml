@@ -75,7 +75,7 @@ apis:
       - OpenAPI
       - llms.txt
     properties:
-      - type: MCP
+      - type: MCPServer
         url: https://www.loacare.com/api/mcp
       - type: Documentation
         url: https://www.loacare.com/mcp
