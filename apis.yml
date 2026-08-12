@@ -23,64 +23,93 @@ tags:
   - OpenAPI
   - llms.txt
 apis:
-  - name: Loa Healthcare Pricing REST API
-    description: >-
-      Versioned REST API for searching hospital/provider entities, retrieving source-labeled price rows, comparing
-      prices by CPT code, and submitting reviewed corrections. Public reads require no key; optional metered provider
-      API key via x-api-key header.
-    humanURL: https://www.loacare.com/provider/docs
-    baseURL: https://www.loacare.com/api/v1
-    tags:
-      - healthcare
-      - price transparency
-      - medical pricing
-      - hospitals
-      - providers
-      - provider directory
-      - hospital prices
-      - CPT
-      - HCPCS
-      - MCP
-      - agent-native
-      - OpenAPI
-      - llms.txt
-    properties:
-      - type: OpenAPI
-        url: openapi/loa-healthcare-pricing-api-openapi.json
-      - type: OpenAPI
-        url: https://www.loacare.com/api/v1/openapi.json
-      - type: Documentation
-        url: https://www.loacare.com/provider/docs
-      - type: APIsJSON
-        url: https://www.loacare.com/apis.json
-  - name: Loa Healthcare Pricing MCP Server
-    description: >-
-      Hosted/remote MCP server 'LOA Healthcare Pricing' v1.0.0 over Streamable HTTP with 12 tools for CPT search,
-      procedure suggestions, provider/hospital search, pricing estimates, market pricing, entity profiles/prices, price
-      source explanation, and update submission. Discovery is public; tool calls require OAuth 2.0.
-    humanURL: https://www.loacare.com/mcp
-    baseURL: https://www.loacare.com/api/mcp
-    tags:
-      - healthcare
-      - price transparency
-      - medical pricing
-      - hospitals
-      - providers
-      - provider directory
-      - hospital prices
-      - CPT
-      - HCPCS
-      - MCP
-      - agent-native
-      - OpenAPI
-      - llms.txt
-    properties:
-      - type: MCPServer
-        url: https://www.loacare.com/api/mcp
-      - type: Documentation
-        url: https://www.loacare.com/mcp
-      - type: LLMSTxt
-        url: https://www.loacare.com/llms.txt
+- name: Loa Healthcare Pricing MCP Server
+  description: >-
+    Hosted/remote MCP server 'LOA Healthcare Pricing' v1.0.0 over Streamable HTTP with 12 tools for CPT
+    search, procedure suggestions, provider/hospital search, pricing estimates, market pricing, entity
+    profiles/prices, price source explanation, and update submission. Discovery is public; tool calls
+    require OAuth 2.0.
+  humanURL: https://www.loacare.com/mcp
+  baseURL: https://www.loacare.com/api/mcp
+  tags:
+  - healthcare
+  - price transparency
+  - medical pricing
+  - hospitals
+  - providers
+  - provider directory
+  - hospital prices
+  - CPT
+  - HCPCS
+  - MCP
+  - agent-native
+  - OpenAPI
+  - llms.txt
+  properties:
+  - type: MCPServer
+    url: https://www.loacare.com/api/mcp
+  - type: Documentation
+    url: https://www.loacare.com/mcp
+  - type: LLMSTxt
+    url: https://www.loacare.com/llms.txt
+- aid: loa-healthcare-pricing-api:loa-healthcare-pricing-api-entities-api
+  name: Loa Healthcare Pricing API Entities API
+  description: The Entities API from Loa Healthcare Pricing API — 3 operation(s) for entities.
+  humanURL: https://www.loacare.com/provider/docs
+  baseURL: https://www.loacare.com/api/v1
+  tags:
+  - Entities
+  properties:
+  - type: OpenAPI
+    url: openapi/loa-healthcare-pricing-api-entities-api-openapi.yml
+  - type: Documentation
+    url: https://www.loacare.com/provider/docs
+  - type: APIsJSON
+    url: https://www.loacare.com/apis.json
+- aid: loa-healthcare-pricing-api:loa-healthcare-pricing-api-entity-analytics-api
+  name: Loa Healthcare Pricing API Entity Analytics API
+  description: >-
+    The Entity Analytics API from Loa Healthcare Pricing API — 1 operation(s) for entity analytics.
+  humanURL: https://www.loacare.com/provider/docs
+  baseURL: https://www.loacare.com/api/v1
+  tags:
+  - Entity Analytics
+  properties:
+  - type: OpenAPI
+    url: openapi/loa-healthcare-pricing-api-entity-analytics-api-openapi.yml
+  - type: Documentation
+    url: https://www.loacare.com/provider/docs
+  - type: APIsJSON
+    url: https://www.loacare.com/apis.json
+- aid: loa-healthcare-pricing-api:loa-healthcare-pricing-api-entity-updates-api
+  name: Loa Healthcare Pricing API Entity Updates API
+  description: >-
+    The Entity Updates API from Loa Healthcare Pricing API — 1 operation(s) for entity updates.
+  humanURL: https://www.loacare.com/provider/docs
+  baseURL: https://www.loacare.com/api/v1
+  tags:
+  - Entity Updates
+  properties:
+  - type: OpenAPI
+    url: openapi/loa-healthcare-pricing-api-entity-updates-api-openapi.yml
+  - type: Documentation
+    url: https://www.loacare.com/provider/docs
+  - type: APIsJSON
+    url: https://www.loacare.com/apis.json
+- aid: loa-healthcare-pricing-api:loa-healthcare-pricing-api-prices-api
+  name: Loa Healthcare Pricing API Prices API
+  description: The Prices API from Loa Healthcare Pricing API — 1 operation(s) for prices.
+  humanURL: https://www.loacare.com/provider/docs
+  baseURL: https://www.loacare.com/api/v1
+  tags:
+  - Prices
+  properties:
+  - type: OpenAPI
+    url: openapi/loa-healthcare-pricing-api-prices-api-openapi.yml
+  - type: Documentation
+    url: https://www.loacare.com/provider/docs
+  - type: APIsJSON
+    url: https://www.loacare.com/apis.json
 maintainers:
   - FN: Loa Engineering
     url: https://www.loacare.com/api-partnership
