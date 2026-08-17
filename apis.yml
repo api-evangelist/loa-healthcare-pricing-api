@@ -4,7 +4,7 @@ description: >-
   source-labeled price rows, cross-entity price comparison by CPT/HCPCS, and a reviewed update-submission workflow. Data
   comes from 6,000+ hospital Machine Readable Files under the federal Hospital Price Transparency Rule plus CMS NPI
   Registry and Loa-reviewed provider submissions.
-url: https://loa-healthcare-pricing-api.apievangelist.com/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/loa-healthcare-pricing-api/refs/heads/main/apis.yml
 created: '2026-07-28'
 modified: '2026-08-02'
 specificationVersion: '0.21'
