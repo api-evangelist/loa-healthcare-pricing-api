@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Loa Healthcare Pricing Entity Updates API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Entity Updates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a provider or hospital update request for Loa review",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/api/v1/entity-updates",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a pending reviewed update request from a public form, API client, or agent. A provider API key is optional; Loa never changes public runtime data until staff approve the request."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

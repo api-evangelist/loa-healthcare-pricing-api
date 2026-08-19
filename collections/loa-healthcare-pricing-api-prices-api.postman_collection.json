@@ -1,0 +1,379 @@
+{
+  "item": [
+    {
+      "id": "b9f6bd18-a358-4edd-92d8-c20239eea487",
+      "name": "Prices",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "01faa6cf-f069-467e-9ba6-050e31e5f526",
+          "name": "Compare source-labeled prices across entities",
+          "request": {
+            "name": "Compare source-labeled prices across entities",
+            "description": {},
+            "url": {
+              "path": [
+                "prices",
+                "compare"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<string>",
+                  "description": "(Required) One or more Loa entity slugs. Repeat or comma-separate values, max 10 entities."
+                },
+                {
+                  "disabled": false,
+                  "key": "cpt_code",
+                  "value": "<string>",
+                  "description": "(Required) One or more CPT codes. Repeat or comma-separate values, max 10 codes."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit_per_entity",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": [
+            {
+              "id": "f54b902d-f174-488d-a0ca-2157ae76dba3",
+              "name": "Grouped comparisons by CPT code and entity.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prices",
+                    "compare"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "entity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cpt_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit_per_entity",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"query\": {\n    \"key_0\": 1020\n  },\n  \"comparisons\": [\n    {\n      \"key_0\": 6514.243082623443\n    },\n    {\n      \"key_0\": 1788,\n      \"key_1\": true\n    }\n  ],\n  \"provenance\": {\n    \"authority\": \"string\",\n    \"confidence\": \"low\",\n    \"caveats\": [\n      \"string\",\n      \"string\"\n    ],\n    \"source_type\": \"string\",\n    \"sourceType\": \"string\",\n    \"source_label\": \"string\",\n    \"sourceLabel\": \"string\",\n    \"sourceUpdatedAt\": \"string\",\n    \"loaReviewedAt\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "04c4030d-e035-4bf0-bdec-59e83ebe834b",
+              "name": "InvalidPriceCompareRequest.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prices",
+                    "compare"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "entity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cpt_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit_per_entity",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4aaebc39-9063-4b29-a862-39e25e7c73f2",
+              "name": "ApiClientUnauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prices",
+                    "compare"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "entity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cpt_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit_per_entity",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1258c444-3fc4-416f-bd7e-eb5f13b4e77a",
+              "name": "ApiClientDisabled or ApiClientScopeDenied.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prices",
+                    "compare"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "entity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cpt_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit_per_entity",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "43b175dd-b6d2-4b01-9476-8138a8ce708e",
+              "name": "EntityNotFound.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prices",
+                    "compare"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "entity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cpt_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit_per_entity",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "038aaf0a-7408-443c-aea2-3fc2454c4585",
+              "name": "ApiRateLimited.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prices",
+                    "compare"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "entity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cpt_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit_per_entity",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "20a6e4b3-3488-4d04-9047-d7d932cd0d18",
+    "name": "Loa Healthcare Pricing Prices API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Search source-labeled U.S. healthcare providers and hospitals, compare medical prices, and submit reviewed data updates.\n\nContact Support:\n Name: Loa",
+      "type": "text/plain"
+    }
+  }
+}

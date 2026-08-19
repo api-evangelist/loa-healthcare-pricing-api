@@ -1,0 +1,262 @@
+openapi: 3.2.0
+info:
+  title: Loa Healthcare Pricing Entity Updates API
+  version: 0.1.0
+  description: Search source-labeled U.S. healthcare providers and hospitals, compare medical prices, and submit reviewed data updates.
+  termsOfService: https://www.loacare.com/terms
+  contact:
+    name: Loa
+    url: https://www.loacare.com/api-partnership
+  license:
+    name: Loa Terms of Service
+    url: https://www.loacare.com/terms
+servers:
+- url: /api/v1
+tags:
+- name: Entity Updates
+paths:
+  /entity-updates:
+    post:
+      operationId: submitEntityUpdate
+      summary: Submit a provider or hospital update request for Loa review
+      description: Creates a pending reviewed update request from a public form, API client, or agent. A provider API key is optional; Loa never changes public runtime data until staff approve the request.
+      security:
+      - {}
+      - ProviderApiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityUpdateRequest'
+      responses:
+        '200':
+          description: Existing idempotent request returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityUpdateResponse'
+        '201':
+          description: Update request created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityUpdateResponse'
+        '400':
+          description: UpdateRequestValidationFailed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: ApiClientUnauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: ApiClientDisabled or ApiClientScopeDenied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: EntityNotFound.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: ApiRateLimited.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+      - Entity Updates
+components:
+  schemas:
+    EntityUpdateRequest:
+      type: object
+      required:
+      - submitter_email
+      - request_type
+      properties:
+        entity_page_id:
+          type: string
+          format: uuid
+        entity_slug:
+          type: string
+        entity_type:
+          type: string
+          enum:
+          - hospital
+          - provider
+          - unknown
+        submitter_email:
+          type: string
+          format: email
+        submitter_name:
+          type: string
+        submitter_organization:
+          type: string
+          maxLength: 300
+          description: Provider, hospital, or agent organization represented by the submitter.
+        submitter_role:
+          type: string
+        submitter_phone:
+          type: string
+        source_urls:
+          type: array
+          maxItems: 10
+          items:
+            type: string
+            format: uri
+          description: Public URLs reviewers can use to verify the submitted change.
+        source_notes:
+          type: string
+          maxLength: 2000
+          description: Short verification notes, source context, or callback instructions.
+        attestation:
+          type: string
+          enum:
+          - provider_representative
+          - authorized_agent
+          - public_source
+          - other
+          description: How the submitter is connected to the submitted evidence.
+        request_type:
+          type: string
+          enum:
+          - price_update
+          - profile_correction
+          - new_listing
+          - remove_listing
+          - other
+        proposed_changes:
+          type: object
+          additionalProperties: true
+          description: Structured proposed changes. Serialized JSON must be 25 KB or less.
+        uploaded_file_url:
+          type: string
+          format: uri
+        idempotency_key:
+          type: string
+          minLength: 8
+          maxLength: 200
+          description: Optional stable retry key. Loa derives one from the payload if omitted.
+        price_items:
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/EntityUpdatePriceItem'
+    EntityUpdatePriceItem:
+      type: object
+      required:
+      - cpt_code
+      properties:
+        cpt_code:
+          type: string
+          minLength: 3
+          maxLength: 20
+          pattern: ^(\d{5}|[A-Za-z]\d{4})$
+          description: 5-digit CPT code or HCPCS Level II code.
+        code_type:
+          type: string
+          default: CPT
+        service_name:
+          type: string
+          maxLength: 300
+        price_kind:
+          type: string
+          enum:
+          - cash
+          - discounted_cash
+          - package_cash
+          - payer_negotiated
+          default: cash
+        proposed_price_cents:
+          type: integer
+          minimum: 1
+        payer_name:
+          type: string
+          maxLength: 300
+        plan_name:
+          type: string
+          maxLength: 300
+        setting:
+          type: string
+          maxLength: 100
+        billing_class:
+          type: string
+          maxLength: 100
+        component:
+          type: string
+          enum:
+          - global
+          - professional
+          - facility
+          - unknown
+          default: unknown
+        included_services:
+          type: array
+          items:
+            type: string
+            maxLength: 300
+        exclusions:
+          type: string
+          maxLength: 1000
+        price_notes:
+          type: string
+          maxLength: 1000
+    NamedError:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    ErrorResponse:
+      type: object
+      required:
+      - request_id
+      - error
+      properties:
+        request_id:
+          type: string
+        error:
+          $ref: '#/components/schemas/NamedError'
+    EntityUpdateResponse:
+      type: object
+      required:
+      - request_id
+      - update_request_id
+      - status
+      - reused_existing
+      properties:
+        request_id:
+          type: string
+        update_request_id:
+          type: string
+          format: uuid
+        entity_page_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        status:
+          type: string
+        reused_existing:
+          type: boolean
+  securitySchemes:
+    ProviderApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: Optional provider API key for metered clients. Local public reads still work without a key.
+externalDocs:
+  description: Loa healthcare pricing API documentation
+  url: https://www.loacare.com/api-partnership

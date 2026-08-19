@@ -1,0 +1,556 @@
+openapi: 3.2.0
+info:
+  title: Loa Healthcare Pricing Entities API
+  version: 0.1.0
+  description: Search source-labeled U.S. healthcare providers and hospitals, compare medical prices, and submit reviewed data updates.
+  termsOfService: https://www.loacare.com/terms
+  contact:
+    name: Loa
+    url: https://www.loacare.com/api-partnership
+  license:
+    name: Loa Terms of Service
+    url: https://www.loacare.com/terms
+servers:
+- url: /api/v1
+tags:
+- name: Entities
+paths:
+  /entities/search:
+    get:
+      operationId: searchEntities
+      summary: Search provider and hospital entities
+      security:
+      - {}
+      - ProviderApiKey: []
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      - name: type
+        in: query
+        schema:
+          type: string
+          enum:
+          - hospital
+          - provider
+      - name: state
+        in: query
+        schema:
+          type: string
+        description: Two-letter state code or full state name. Unknown states return InvalidEntitySearch.
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 50
+      responses:
+        '200':
+          description: Entity search results with request_id and pagination.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitySearchResponse'
+        '400':
+          description: InvalidEntitySearch.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: ApiClientUnauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: ApiClientDisabled or ApiClientScopeDenied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: ApiRateLimited.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+      - Entities
+  /entities/{slug}:
+    get:
+      operationId: getEntity
+      summary: Get one entity profile by exact Loa slug or entity_pages.id
+      security:
+      - {}
+      - ProviderApiKey: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Exact Loa slug, or entity_pages.id for local/API clients.
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - hospital
+          - provider
+      responses:
+        '200':
+          description: Entity profile with provenance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityProfileResponse'
+        '400':
+          description: InvalidEntityType.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: ApiClientUnauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: ApiClientDisabled or ApiClientScopeDenied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: EntityNotFound.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: ApiRateLimited.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+      - Entities
+  /entities/{slug}/prices:
+    get:
+      operationId: getEntityPrices
+      summary: Get source-labeled prices for one entity by exact Loa slug or entity_pages.id
+      security:
+      - {}
+      - ProviderApiKey: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Exact Loa slug, or entity_pages.id for local/API clients.
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - hospital
+          - provider
+      - name: cpt_code
+        in: query
+        schema:
+          type: string
+        description: Optional CPT code filter. Repeat or comma-separate values, max 25 codes.
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+      responses:
+        '200':
+          description: Resolved prices with provenance and explicit unavailable rows.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityPricesResponse'
+        '400':
+          description: InvalidEntityType or InvalidEntityPricesRequest.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: ApiClientUnauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: ApiClientDisabled or ApiClientScopeDenied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: EntityNotFound.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: ApiRateLimited.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+      - Entities
+components:
+  schemas:
+    Pagination:
+      type: object
+      required:
+      - limit
+      - returned
+      properties:
+        limit:
+          type: integer
+        returned:
+          type: integer
+    EntitySearchResponse:
+      type: object
+      required:
+      - request_id
+      - results
+      - pagination
+      - provenance
+      properties:
+        request_id:
+          type: string
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntitySearchResult'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        provenance:
+          $ref: '#/components/schemas/Provenance'
+    EntityPricesResponse:
+      type: object
+      required:
+      - request_id
+      - entity
+      - prices
+      - pagination
+      - provenance
+      properties:
+        request_id:
+          type: string
+        entity:
+          $ref: '#/components/schemas/ResolvedEntity'
+        prices:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResolvedPrice'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        provenance:
+          $ref: '#/components/schemas/Provenance'
+    ResolvedEntity:
+      type: object
+      required:
+      - id
+      - entityType
+      - slug
+      - canonicalName
+      properties:
+        id:
+          type: string
+          format: uuid
+        entityType:
+          type: string
+          enum:
+          - hospital
+          - provider
+        slug:
+          type: string
+        canonicalName:
+          type: string
+        city:
+          type:
+          - string
+          - 'null'
+        state:
+          type:
+          - string
+          - 'null'
+    Provenance:
+      type: object
+      required:
+      - authority
+      - confidence
+      - caveats
+      properties:
+        authority:
+          type: string
+        source_type:
+          type: string
+        sourceType:
+          type: string
+        source_label:
+          type: string
+        sourceLabel:
+          type: string
+        sourceUpdatedAt:
+          type: string
+        loaReviewedAt:
+          type: string
+        confidence:
+          type: string
+          enum:
+          - high
+          - medium
+          - low
+        caveats:
+          type: array
+          items:
+            type: string
+    EntityProfileResponse:
+      type: object
+      required:
+      - request_id
+      - entity
+      - provenance
+      - profile_field_provenance
+      properties:
+        request_id:
+          type: string
+        entity:
+          $ref: '#/components/schemas/EntityProfile'
+        provenance:
+          $ref: '#/components/schemas/Provenance'
+        profile_field_provenance:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ProfileFieldProvenance'
+    ErrorResponse:
+      type: object
+      required:
+      - request_id
+      - error
+      properties:
+        request_id:
+          type: string
+        error:
+          $ref: '#/components/schemas/NamedError'
+    NamedError:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    ComparableResolvedPrice:
+      type: object
+      required:
+      - entityPageId
+      - cptCode
+      - codeType
+      - priceCents
+      - priceKind
+      - label
+      - provenance
+      properties:
+        entityPageId:
+          type: string
+          format: uuid
+        cptCode:
+          type: string
+        codeType:
+          type: string
+        procedureDescription:
+          type: string
+        serviceCategory:
+          type: string
+        priceCents:
+          type:
+          - integer
+          - 'null'
+        priceKind:
+          type: string
+        label:
+          type: string
+        payerName:
+          type: string
+        planName:
+          type: string
+        setting:
+          type: string
+        billingClass:
+          type: string
+        component:
+          type: string
+        sourceRowId:
+          type: string
+        basePriceIndexId:
+          type: string
+        overlayRelationship:
+          type: string
+        provenance:
+          $ref: '#/components/schemas/Provenance'
+    ResolvedPrice:
+      allOf:
+      - $ref: '#/components/schemas/ComparableResolvedPrice'
+      - type: object
+        properties:
+          comparableMrfPrice:
+            $ref: '#/components/schemas/ComparableResolvedPrice'
+    EntityProfile:
+      type: object
+      required:
+      - id
+      - entityType
+      - slug
+      - canonicalName
+      properties:
+        id:
+          type: string
+          format: uuid
+        entityType:
+          type: string
+          enum:
+          - hospital
+          - provider
+        slug:
+          type: string
+        canonicalName:
+          type: string
+        displayName:
+          type:
+          - string
+          - 'null'
+        city:
+          type:
+          - string
+          - 'null'
+        state:
+          type:
+          - string
+          - 'null'
+        zipCode:
+          type:
+          - string
+          - 'null'
+        address:
+          type:
+          - string
+          - 'null'
+        phone:
+          type:
+          - string
+          - 'null'
+        website:
+          type:
+          - string
+          - 'null'
+        npi:
+          type:
+          - string
+          - 'null'
+        ccn:
+          type:
+          - string
+          - 'null'
+        hpfId:
+          type:
+          - string
+          - 'null'
+        dataQualityScore:
+          type:
+          - number
+          - 'null'
+        updatedAt:
+          type: string
+        metadata:
+          type: object
+          additionalProperties: true
+    EntitySearchResult:
+      type: object
+      required:
+      - id
+      - entity_type
+      - slug
+      - canonical_name
+      properties:
+        id:
+          type: string
+          format: uuid
+        entity_type:
+          type: string
+          enum:
+          - hospital
+          - provider
+        slug:
+          type: string
+        canonical_name:
+          type: string
+        display_name:
+          type:
+          - string
+          - 'null'
+        city:
+          type:
+          - string
+          - 'null'
+        state:
+          type:
+          - string
+          - 'null'
+        zip_code:
+          type:
+          - string
+          - 'null'
+        data_quality_score:
+          type:
+          - number
+          - 'null'
+        updated_at:
+          type: string
+    ProfileFieldProvenance:
+      type: object
+      required:
+      - authority
+      - source_type
+      - source_label
+      - confidence
+      properties:
+        authority:
+          type: string
+        source_type:
+          type: string
+        source_label:
+          type: string
+        confidence:
+          type: string
+        loa_reviewed_at:
+          type:
+          - string
+          - 'null'
+  securitySchemes:
+    ProviderApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: Optional provider API key for metered clients. Local public reads still work without a key.
+externalDocs:
+  description: Loa healthcare pricing API documentation
+  url: https://www.loacare.com/api-partnership

@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Loa Healthcare Pricing Entity Analytics API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Entity Analytics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Record an aggregate-safe entity analytics beacon",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/api/v1/entity-analytics",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Client beacon for SEO/profile traffic, outbound clicks, and search impressions. Raw identifiers are hashed or stripped before storage and provider dashboards only show aggregates."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

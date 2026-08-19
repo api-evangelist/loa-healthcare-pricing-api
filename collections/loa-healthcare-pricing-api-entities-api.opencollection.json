@@ -1,0 +1,111 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Loa Healthcare Pricing Entities API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Entities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search provider and hospital entities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/api/v1/entities/search",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "state",
+                "value": "",
+                "type": "query",
+                "description": "Two-letter state code or full state name. Unknown states return InvalidEntitySearch."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search provider and hospital entities"
+        },
+        {
+          "info": {
+            "name": "Get one entity profile by exact Loa slug or entity_pages.id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/api/v1/entities/:slug",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path",
+                "description": "Exact Loa slug, or entity_pages.id for local/API clients."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get one entity profile by exact Loa slug or entity_pages.id"
+        },
+        {
+          "info": {
+            "name": "Get source-labeled prices for one entity by exact Loa slug or entity_pages.id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/api/v1/entities/:slug/prices",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path",
+                "description": "Exact Loa slug, or entity_pages.id for local/API clients."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "cpt_code",
+                "value": "",
+                "type": "query",
+                "description": "Optional CPT code filter. Repeat or comma-separate values, max 25 codes."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get source-labeled prices for one entity by exact Loa slug or entity_pages.id"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

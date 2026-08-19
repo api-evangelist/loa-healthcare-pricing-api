@@ -1,0 +1,137 @@
+openapi: 3.2.0
+info:
+  title: Loa Healthcare Pricing Entity Analytics API
+  version: 0.1.0
+  description: Search source-labeled U.S. healthcare providers and hospitals, compare medical prices, and submit reviewed data updates.
+  termsOfService: https://www.loacare.com/terms
+  contact:
+    name: Loa
+    url: https://www.loacare.com/api-partnership
+  license:
+    name: Loa Terms of Service
+    url: https://www.loacare.com/terms
+servers:
+- url: /api/v1
+tags:
+- name: Entity Analytics
+paths:
+  /entity-analytics:
+    post:
+      operationId: recordEntityAnalytics
+      summary: Record an aggregate-safe entity analytics beacon
+      description: Client beacon for SEO/profile traffic, outbound clicks, and search impressions. Raw identifiers are hashed or stripped before storage and provider dashboards only show aggregates.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityAnalyticsEvent'
+      responses:
+        '200':
+          description: Analytics event accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityAnalyticsResponse'
+        '400':
+          description: InvalidAnalyticsEvent.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: AnalyticsRateLimited.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: AnalyticsWriteFailed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+      - Entity Analytics
+components:
+  schemas:
+    NamedError:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    ErrorResponse:
+      type: object
+      required:
+      - request_id
+      - error
+      properties:
+        request_id:
+          type: string
+        error:
+          $ref: '#/components/schemas/NamedError'
+    EntityAnalyticsEvent:
+      type: object
+      required:
+      - entity_page_id
+      - event_type
+      properties:
+        entity_page_id:
+          type: string
+          format: uuid
+        event_type:
+          type: string
+          enum:
+          - profile_view
+          - search_impression
+          - profile_click
+          - outbound_click
+          - api_result_shown
+        source:
+          type: string
+          maxLength: 120
+        anonymous_session_id:
+          type: string
+          maxLength: 200
+        search_query:
+          type: string
+          maxLength: 500
+        searcher_city:
+          type: string
+          maxLength: 120
+        searcher_state:
+          type: string
+          maxLength: 60
+          description: Two-letter state code or full state name, normalized before storage.
+        metadata:
+          type: object
+          additionalProperties: true
+          description: Allowlisted analytics context. Identifiers and email-like values are stripped before storage.
+        dedupe_key:
+          type: string
+          maxLength: 200
+    EntityAnalyticsResponse:
+      type: object
+      required:
+      - request_id
+      - ok
+      properties:
+        request_id:
+          type: string
+        ok:
+          type: boolean
+  securitySchemes:
+    ProviderApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: Optional provider API key for metered clients. Local public reads still work without a key.
+externalDocs:
+  description: Loa healthcare pricing API documentation
+  url: https://www.loacare.com/api-partnership

@@ -1,0 +1,383 @@
+{
+  "item": [
+    {
+      "id": "70ad7ab0-21f2-4cdf-93eb-f15133a0a2bd",
+      "name": "Entity Updates",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a9eb432a-60a1-4921-af9d-e8fd1207f5d0",
+          "name": "Submit a provider or hospital update request for Loa review",
+          "request": {
+            "name": "Submit a provider or hospital update request for Loa review",
+            "description": {
+              "content": "Creates a pending reviewed update request from a public form, API client, or agent. A provider API key is optional; Loa never changes public runtime data until staff approve the request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "entity-updates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"submitter_email\": \"<email>\",\n  \"request_type\": \"<string>\",\n  \"entity_page_id\": \"<uuid>\",\n  \"entity_slug\": \"<string>\",\n  \"entity_type\": \"<string>\",\n  \"submitter_name\": \"<string>\",\n  \"submitter_organization\": \"<string>\",\n  \"submitter_role\": \"<string>\",\n  \"submitter_phone\": \"<string>\",\n  \"source_urls\": [\n    \"<uri>\",\n    \"<uri>\"\n  ],\n  \"source_notes\": \"<string>\",\n  \"attestation\": \"<string>\",\n  \"proposed_changes\": {\n    \"key_0\": \"string\"\n  },\n  \"uploaded_file_url\": \"<uri>\",\n  \"idempotency_key\": \"<string>\",\n  \"price_items\": [\n    {\n      \"cpt_code\": \"<string>\",\n      \"code_type\": \"CPT\",\n      \"service_name\": \"<string>\",\n      \"price_kind\": \"cash\",\n      \"proposed_price_cents\": \"<integer>\",\n      \"payer_name\": \"<string>\",\n      \"plan_name\": \"<string>\",\n      \"setting\": \"<string>\",\n      \"billing_class\": \"<string>\",\n      \"component\": \"unknown\",\n      \"included_services\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"exclusions\": \"<string>\",\n      \"price_notes\": \"<string>\"\n    },\n    {\n      \"cpt_code\": \"<string>\",\n      \"code_type\": \"CPT\",\n      \"service_name\": \"<string>\",\n      \"price_kind\": \"cash\",\n      \"proposed_price_cents\": \"<integer>\",\n      \"payer_name\": \"<string>\",\n      \"plan_name\": \"<string>\",\n      \"setting\": \"<string>\",\n      \"billing_class\": \"<string>\",\n      \"component\": \"unknown\",\n      \"included_services\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"exclusions\": \"<string>\",\n      \"price_notes\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cfe21f68-e53c-4b49-97a1-9b1b9f5a57f9",
+              "name": "Existing idempotent request returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entity-updates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"submitter_email\": \"<email>\",\n  \"request_type\": \"<string>\",\n  \"entity_page_id\": \"<uuid>\",\n  \"entity_slug\": \"<string>\",\n  \"entity_type\": \"<string>\",\n  \"submitter_name\": \"<string>\",\n  \"submitter_organization\": \"<string>\",\n  \"submitter_role\": \"<string>\",\n  \"submitter_phone\": \"<string>\",\n  \"source_urls\": [\n    \"<uri>\",\n    \"<uri>\"\n  ],\n  \"source_notes\": \"<string>\",\n  \"attestation\": \"<string>\",\n  \"proposed_changes\": {\n    \"key_0\": 1620.722513155024,\n    \"key_1\": 6175.8103257399\n  },\n  \"uploaded_file_url\": \"<uri>\",\n  \"idempotency_key\": \"<string>\",\n  \"price_items\": [\n    {\n      \"cpt_code\": \"<string>\",\n      \"code_type\": \"CPT\",\n      \"service_name\": \"<string>\",\n      \"price_kind\": \"cash\",\n      \"proposed_price_cents\": \"<integer>\",\n      \"payer_name\": \"<string>\",\n      \"plan_name\": \"<string>\",\n      \"setting\": \"<string>\",\n      \"billing_class\": \"<string>\",\n      \"component\": \"unknown\",\n      \"included_services\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"exclusions\": \"<string>\",\n      \"price_notes\": \"<string>\"\n    },\n    {\n      \"cpt_code\": \"<string>\",\n      \"code_type\": \"CPT\",\n      \"service_name\": \"<string>\",\n      \"price_kind\": \"cash\",\n      \"proposed_price_cents\": \"<integer>\",\n      \"payer_name\": \"<string>\",\n      \"plan_name\": \"<string>\",\n      \"setting\": \"<string>\",\n      \"billing_class\": \"<string>\",\n      \"component\": \"unknown\",\n      \"included_services\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"exclusions\": \"<string>\",\n      \"price_notes\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"update_request_id\": \"4e8499ad-cb85-692e-ed41-07b3fae67e41\",\n  \"status\": \"string\",\n  \"reused_existing\": true,\n  \"entity_page_id\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "605464ec-2e3a-45c9-b4cb-313396349862",
+              "name": "Update request created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entity-updates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"submitter_email\": \"<email>\",\n  \"request_type\": \"<string>\",\n  \"entity_page_id\": \"<uuid>\",\n  \"entity_slug\": \"<string>\",\n  \"entity_type\": \"<string>\",\n  \"submitter_name\": \"<string>\",\n  \"submitter_organization\": \"<string>\",\n  \"submitter_role\": \"<string>\",\n  \"submitter_phone\": \"<string>\",\n  \"source_urls\": [\n    \"<uri>\",\n    \"<uri>\"\n  ],\n  \"source_notes\": \"<string>\",\n  \"attestation\": \"<string>\",\n  \"proposed_changes\": {\n    \"key_0\": 1620.722513155024,\n    \"key_1\": 6175.8103257399\n  },\n  \"uploaded_file_url\": \"<uri>\",\n  \"idempotency_key\": \"<string>\",\n  \"price_items\": [\n    {\n      \"cpt_code\": \"<string>\",\n      \"code_type\": \"CPT\",\n      \"service_name\": \"<string>\",\n      \"price_kind\": \"cash\",\n      \"proposed_price_cents\": \"<integer>\",\n      \"payer_name\": \"<string>\",\n      \"plan_name\": \"<string>\",\n      \"setting\": \"<string>\",\n      \"billing_class\": \"<string>\",\n      \"component\": \"unknown\",\n      \"included_services\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"exclusions\": \"<string>\",\n      \"price_notes\": \"<string>\"\n    },\n    {\n      \"cpt_code\": \"<string>\",\n      \"code_type\": \"CPT\",\n      \"service_name\": \"<string>\",\n      \"price_kind\": \"cash\",\n      \"proposed_price_cents\": \"<integer>\",\n      \"payer_name\": \"<string>\",\n      \"plan_name\": \"<string>\",\n      \"setting\": \"<string>\",\n      \"billing_class\": \"<string>\",\n      \"component\": \"unknown\",\n      \"included_services\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"exclusions\": \"<string>\",\n      \"price_notes\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"update_request_id\": \"4e8499ad-cb85-692e-ed41-07b3fae67e41\",\n  \"status\": \"string\",\n  \"reused_existing\": true,\n  \"entity_page_id\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a21f7a14-5013-4849-90f3-d6712484658f",
+              "name": "UpdateRequestValidationFailed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entity-updates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"submitter_email\": \"<email>\",\n  \"request_type\": \"<string>\",\n  \"entity_page_id\": \"<uuid>\",\n  \"entity_slug\": \"<string>\",\n  \"entity_type\": \"<string>\",\n  \"submitter_name\": \"<string>\",\n  \"submitter_organization\": \"<string>\",\n  \"submitter_role\": \"<string>\",\n  \"submitter_phone\": \"<string>\",\n  \"source_urls\": [\n    \"<uri>\",\n    \"<uri>\"\n  ],\n  \"source_notes\": \"<string>\",\n  \"attestation\": \"<string>\",\n  \"proposed_changes\": {\n    \"key_0\": 1620.722513155024,\n    \"key_1\": 6175.8103257399\n  },\n  \"uploaded_file_url\": \"<uri>\",\n  \"idempotency_key\": \"<string>\",\n  \"price_items\": [\n    {\n      \"cpt_code\": \"<string>\",\n      \"code_type\": \"CPT\",\n      \"service_name\": \"<string>\",\n      \"price_kind\": \"cash\",\n      \"proposed_price_cents\": \"<integer>\",\n      \"payer_name\": \"<string>\",\n      \"plan_name\": \"<string>\",\n      \"setting\": \"<string>\",\n      \"billing_class\": \"<string>\",\n      \"component\": \"unknown\",\n      \"included_services\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"exclusions\": \"<string>\",\n      \"price_notes\": \"<string>\"\n    },\n    {\n      \"cpt_code\": \"<string>\",\n      \"code_type\": \"CPT\",\n      \"service_name\": \"<string>\",\n      \"price_kind\": \"cash\",\n      \"proposed_price_cents\": \"<integer>\",\n      \"payer_name\": \"<string>\",\n      \"plan_name\": \"<string>\",\n      \"setting\": \"<string>\",\n      \"billing_class\": \"<string>\",\n      \"component\": \"unknown\",\n      \"included_services\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"exclusions\": \"<string>\",\n      \"price_notes\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7b5a0ec3-af1b-4344-81e7-5ebce3070988",
+              "name": "ApiClientUnauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entity-updates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"submitter_email\": \"<email>\",\n  \"request_type\": \"<string>\",\n  \"entity_page_id\": \"<uuid>\",\n  \"entity_slug\": \"<string>\",\n  \"entity_type\": \"<string>\",\n  \"submitter_name\": \"<string>\",\n  \"submitter_organization\": \"<string>\",\n  \"submitter_role\": \"<string>\",\n  \"submitter_phone\": \"<string>\",\n  \"source_urls\": [\n    \"<uri>\",\n    \"<uri>\"\n  ],\n  \"source_notes\": \"<string>\",\n  \"attestation\": \"<string>\",\n  \"proposed_changes\": {\n    \"key_0\": 1620.722513155024,\n    \"key_1\": 6175.8103257399\n  },\n  \"uploaded_file_url\": \"<uri>\",\n  \"idempotency_key\": \"<string>\",\n  \"price_items\": [\n    {\n      \"cpt_code\": \"<string>\",\n      \"code_type\": \"CPT\",\n      \"service_name\": \"<string>\",\n      \"price_kind\": \"cash\",\n      \"proposed_price_cents\": \"<integer>\",\n      \"payer_name\": \"<string>\",\n      \"plan_name\": \"<string>\",\n      \"setting\": \"<string>\",\n      \"billing_class\": \"<string>\",\n      \"component\": \"unknown\",\n      \"included_services\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"exclusions\": \"<string>\",\n      \"price_notes\": \"<string>\"\n    },\n    {\n      \"cpt_code\": \"<string>\",\n      \"code_type\": \"CPT\",\n      \"service_name\": \"<string>\",\n      \"price_kind\": \"cash\",\n      \"proposed_price_cents\": \"<integer>\",\n      \"payer_name\": \"<string>\",\n      \"plan_name\": \"<string>\",\n      \"setting\": \"<string>\",\n      \"billing_class\": \"<string>\",\n      \"component\": \"unknown\",\n      \"included_services\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"exclusions\": \"<string>\",\n      \"price_notes\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bca95bd4-61cd-4723-9edc-3e17df6af0d6",
+              "name": "ApiClientDisabled or ApiClientScopeDenied.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entity-updates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"submitter_email\": \"<email>\",\n  \"request_type\": \"<string>\",\n  \"entity_page_id\": \"<uuid>\",\n  \"entity_slug\": \"<string>\",\n  \"entity_type\": \"<string>\",\n  \"submitter_name\": \"<string>\",\n  \"submitter_organization\": \"<string>\",\n  \"submitter_role\": \"<string>\",\n  \"submitter_phone\": \"<string>\",\n  \"source_urls\": [\n    \"<uri>\",\n    \"<uri>\"\n  ],\n  \"source_notes\": \"<string>\",\n  \"attestation\": \"<string>\",\n  \"proposed_changes\": {\n    \"key_0\": 1620.722513155024,\n    \"key_1\": 6175.8103257399\n  },\n  \"uploaded_file_url\": \"<uri>\",\n  \"idempotency_key\": \"<string>\",\n  \"price_items\": [\n    {\n      \"cpt_code\": \"<string>\",\n      \"code_type\": \"CPT\",\n      \"service_name\": \"<string>\",\n      \"price_kind\": \"cash\",\n      \"proposed_price_cents\": \"<integer>\",\n      \"payer_name\": \"<string>\",\n      \"plan_name\": \"<string>\",\n      \"setting\": \"<string>\",\n      \"billing_class\": \"<string>\",\n      \"component\": \"unknown\",\n      \"included_services\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"exclusions\": \"<string>\",\n      \"price_notes\": \"<string>\"\n    },\n    {\n      \"cpt_code\": \"<string>\",\n      \"code_type\": \"CPT\",\n      \"service_name\": \"<string>\",\n      \"price_kind\": \"cash\",\n      \"proposed_price_cents\": \"<integer>\",\n      \"payer_name\": \"<string>\",\n      \"plan_name\": \"<string>\",\n      \"setting\": \"<string>\",\n      \"billing_class\": \"<string>\",\n      \"component\": \"unknown\",\n      \"included_services\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"exclusions\": \"<string>\",\n      \"price_notes\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "107a3df5-1f82-40bd-8b5a-a4cc59e697d3",
+              "name": "EntityNotFound.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entity-updates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"submitter_email\": \"<email>\",\n  \"request_type\": \"<string>\",\n  \"entity_page_id\": \"<uuid>\",\n  \"entity_slug\": \"<string>\",\n  \"entity_type\": \"<string>\",\n  \"submitter_name\": \"<string>\",\n  \"submitter_organization\": \"<string>\",\n  \"submitter_role\": \"<string>\",\n  \"submitter_phone\": \"<string>\",\n  \"source_urls\": [\n    \"<uri>\",\n    \"<uri>\"\n  ],\n  \"source_notes\": \"<string>\",\n  \"attestation\": \"<string>\",\n  \"proposed_changes\": {\n    \"key_0\": 1620.722513155024,\n    \"key_1\": 6175.8103257399\n  },\n  \"uploaded_file_url\": \"<uri>\",\n  \"idempotency_key\": \"<string>\",\n  \"price_items\": [\n    {\n      \"cpt_code\": \"<string>\",\n      \"code_type\": \"CPT\",\n      \"service_name\": \"<string>\",\n      \"price_kind\": \"cash\",\n      \"proposed_price_cents\": \"<integer>\",\n      \"payer_name\": \"<string>\",\n      \"plan_name\": \"<string>\",\n      \"setting\": \"<string>\",\n      \"billing_class\": \"<string>\",\n      \"component\": \"unknown\",\n      \"included_services\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"exclusions\": \"<string>\",\n      \"price_notes\": \"<string>\"\n    },\n    {\n      \"cpt_code\": \"<string>\",\n      \"code_type\": \"CPT\",\n      \"service_name\": \"<string>\",\n      \"price_kind\": \"cash\",\n      \"proposed_price_cents\": \"<integer>\",\n      \"payer_name\": \"<string>\",\n      \"plan_name\": \"<string>\",\n      \"setting\": \"<string>\",\n      \"billing_class\": \"<string>\",\n      \"component\": \"unknown\",\n      \"included_services\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"exclusions\": \"<string>\",\n      \"price_notes\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "74066eb3-7ffe-4d7b-8aaf-77861bb0142b",
+              "name": "ApiRateLimited.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entity-updates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"submitter_email\": \"<email>\",\n  \"request_type\": \"<string>\",\n  \"entity_page_id\": \"<uuid>\",\n  \"entity_slug\": \"<string>\",\n  \"entity_type\": \"<string>\",\n  \"submitter_name\": \"<string>\",\n  \"submitter_organization\": \"<string>\",\n  \"submitter_role\": \"<string>\",\n  \"submitter_phone\": \"<string>\",\n  \"source_urls\": [\n    \"<uri>\",\n    \"<uri>\"\n  ],\n  \"source_notes\": \"<string>\",\n  \"attestation\": \"<string>\",\n  \"proposed_changes\": {\n    \"key_0\": 1620.722513155024,\n    \"key_1\": 6175.8103257399\n  },\n  \"uploaded_file_url\": \"<uri>\",\n  \"idempotency_key\": \"<string>\",\n  \"price_items\": [\n    {\n      \"cpt_code\": \"<string>\",\n      \"code_type\": \"CPT\",\n      \"service_name\": \"<string>\",\n      \"price_kind\": \"cash\",\n      \"proposed_price_cents\": \"<integer>\",\n      \"payer_name\": \"<string>\",\n      \"plan_name\": \"<string>\",\n      \"setting\": \"<string>\",\n      \"billing_class\": \"<string>\",\n      \"component\": \"unknown\",\n      \"included_services\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"exclusions\": \"<string>\",\n      \"price_notes\": \"<string>\"\n    },\n    {\n      \"cpt_code\": \"<string>\",\n      \"code_type\": \"CPT\",\n      \"service_name\": \"<string>\",\n      \"price_kind\": \"cash\",\n      \"proposed_price_cents\": \"<integer>\",\n      \"payer_name\": \"<string>\",\n      \"plan_name\": \"<string>\",\n      \"setting\": \"<string>\",\n      \"billing_class\": \"<string>\",\n      \"component\": \"unknown\",\n      \"included_services\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"exclusions\": \"<string>\",\n      \"price_notes\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6c222478-ffac-4ab3-9da3-30898d3bb242",
+    "name": "Loa Healthcare Pricing Entity Updates API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Search source-labeled U.S. healthcare providers and hospitals, compare medical prices, and submit reviewed data updates.\n\nContact Support:\n Name: Loa",
+      "type": "text/plain"
+    }
+  }
+}

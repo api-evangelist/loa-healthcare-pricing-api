@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Loa Healthcare Pricing Prices API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Prices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Compare source-labeled prices across entities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/api/v1/prices/compare",
+            "params": [
+              {
+                "name": "entity",
+                "value": "",
+                "type": "query",
+                "description": "One or more Loa entity slugs. Repeat or comma-separate values, max 10 entities."
+              },
+              {
+                "name": "cpt_code",
+                "value": "",
+                "type": "query",
+                "description": "One or more CPT codes. Repeat or comma-separate values, max 10 codes."
+              },
+              {
+                "name": "limit_per_entity",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Compare source-labeled prices across entities"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

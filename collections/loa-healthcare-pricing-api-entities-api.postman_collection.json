@@ -1,0 +1,1106 @@
+{
+  "item": [
+    {
+      "id": "5b274a94-372e-4ddf-942f-9326eac0d893",
+      "name": "Entities",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cb7a0e56-db63-4914-8f9c-2dace25e82e8",
+          "name": "Search provider and hospital entities",
+          "request": {
+            "name": "Search provider and hospital entities",
+            "description": {},
+            "url": {
+              "path": [
+                "entities",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "state",
+                  "value": "<string>",
+                  "description": "Two-letter state code or full state name. Unknown states return InvalidEntitySearch."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": [
+            {
+              "id": "60b0611b-b646-4e17-8313-3cc56581d0fc",
+              "name": "Entity search results with request_id and pagination.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"results\": [\n    {\n      \"id\": \"59a2600b-2cea-7895-2d81-a66e6bd2bfd3\",\n      \"entity_type\": \"hospital\",\n      \"slug\": \"string\",\n      \"canonical_name\": \"string\",\n      \"display_name\": \"string\",\n      \"city\": \"string\",\n      \"state\": null,\n      \"zip_code\": null,\n      \"data_quality_score\": null,\n      \"updated_at\": \"string\"\n    },\n    {\n      \"id\": \"b9a764c0-c431-002c-abe0-f5fcd9717230\",\n      \"entity_type\": \"hospital\",\n      \"slug\": \"string\",\n      \"canonical_name\": \"string\",\n      \"display_name\": \"string\",\n      \"city\": \"string\",\n      \"state\": \"string\",\n      \"zip_code\": \"string\",\n      \"data_quality_score\": null,\n      \"updated_at\": \"string\"\n    }\n  ],\n  \"pagination\": {\n    \"limit\": 6347,\n    \"returned\": 9993\n  },\n  \"provenance\": {\n    \"authority\": \"string\",\n    \"confidence\": \"high\",\n    \"caveats\": [\n      \"string\",\n      \"string\"\n    ],\n    \"source_type\": \"string\",\n    \"sourceType\": \"string\",\n    \"source_label\": \"string\",\n    \"sourceLabel\": \"string\",\n    \"sourceUpdatedAt\": \"string\",\n    \"loaReviewedAt\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "704cecad-8cb3-442a-a64c-bbaa5c020c2f",
+              "name": "InvalidEntitySearch.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "97ef72a9-67d8-41b7-873c-00f0eb9fa265",
+              "name": "ApiClientUnauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "73f58cae-b655-45ca-ba0c-51d98b75e137",
+              "name": "ApiClientDisabled or ApiClientScopeDenied.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "72351302-5704-4693-9741-55ace339c6a1",
+              "name": "ApiRateLimited.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "46d3f5c9-a49b-4771-99bd-e6a7b7be2035",
+          "name": "Get one entity profile by exact Loa slug or entity_pages.id",
+          "request": {
+            "name": "Get one entity profile by exact Loa slug or entity_pages.id",
+            "description": {},
+            "url": {
+              "path": [
+                "entities",
+                ":slug"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Exact Loa slug, or entity_pages.id for local/API clients."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": [
+            {
+              "id": "dbd1ecc6-1126-482a-90fe-8b5c91cc7ab7",
+              "name": "Entity profile with provenance.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Exact Loa slug, or entity_pages.id for local/API clients."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"entity\": {\n    \"id\": \"5807df72-f6d3-aea9-9841-3e44060cde86\",\n    \"entityType\": \"hospital\",\n    \"slug\": \"string\",\n    \"canonicalName\": \"string\",\n    \"displayName\": null,\n    \"city\": null,\n    \"state\": \"string\",\n    \"zipCode\": null,\n    \"address\": \"string\",\n    \"phone\": null,\n    \"website\": \"string\",\n    \"npi\": \"string\",\n    \"ccn\": null,\n    \"hpfId\": \"string\",\n    \"dataQualityScore\": 8891.278848173299,\n    \"updatedAt\": \"string\",\n    \"metadata\": {\n      \"key_0\": 4799.991999101392\n    }\n  },\n  \"provenance\": {\n    \"authority\": \"string\",\n    \"confidence\": \"low\",\n    \"caveats\": [\n      \"string\",\n      \"string\"\n    ],\n    \"source_type\": \"string\",\n    \"sourceType\": \"string\",\n    \"source_label\": \"string\",\n    \"sourceLabel\": \"string\",\n    \"sourceUpdatedAt\": \"string\",\n    \"loaReviewedAt\": \"string\"\n  },\n  \"profile_field_provenance\": {\n    \"key_0\": {\n      \"authority\": \"string\",\n      \"source_type\": \"string\",\n      \"source_label\": \"string\",\n      \"confidence\": \"string\",\n      \"loa_reviewed_at\": \"string\"\n    },\n    \"key_1\": {\n      \"authority\": \"string\",\n      \"source_type\": \"string\",\n      \"source_label\": \"string\",\n      \"confidence\": \"string\",\n      \"loa_reviewed_at\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d96f899a-befa-42ec-b5a5-8d38719175ee",
+              "name": "InvalidEntityType.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Exact Loa slug, or entity_pages.id for local/API clients."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0beb02e3-be24-47ce-9209-ff74b80607e4",
+              "name": "ApiClientUnauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Exact Loa slug, or entity_pages.id for local/API clients."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b7007eac-7e23-44d2-8611-3f3e9bcbbbfa",
+              "name": "ApiClientDisabled or ApiClientScopeDenied.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Exact Loa slug, or entity_pages.id for local/API clients."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "402a18d3-f6bb-4736-b354-06a0a4cf7516",
+              "name": "EntityNotFound.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Exact Loa slug, or entity_pages.id for local/API clients."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2d4ee656-d897-497c-b58d-cdfcd21c3c94",
+              "name": "ApiRateLimited.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Exact Loa slug, or entity_pages.id for local/API clients."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "48785594-2982-4e20-90da-c295271c6dd5",
+          "name": "Get source-labeled prices for one entity by exact Loa slug or entity_pages.id",
+          "request": {
+            "name": "Get source-labeled prices for one entity by exact Loa slug or entity_pages.id",
+            "description": {},
+            "url": {
+              "path": [
+                "entities",
+                ":slug",
+                "prices"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "cpt_code",
+                  "value": "<string>",
+                  "description": "Optional CPT code filter. Repeat or comma-separate values, max 25 codes."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Exact Loa slug, or entity_pages.id for local/API clients."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": [
+            {
+              "id": "9b94a465-fba9-43b0-a9cc-04c58c0b1f80",
+              "name": "Resolved prices with provenance and explicit unavailable rows.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":slug",
+                    "prices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cpt_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Exact Loa slug, or entity_pages.id for local/API clients."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"entity\": {\n    \"id\": \"64c5fcbb-815f-cd44-f174-adc6b7950088\",\n    \"entityType\": \"provider\",\n    \"slug\": \"string\",\n    \"canonicalName\": \"string\",\n    \"city\": null,\n    \"state\": null\n  },\n  \"prices\": [\n    {\n      \"entityPageId\": \"0a79367e-2fd0-4dd5-f9fe-758140e0b7a0\",\n      \"cptCode\": \"string\",\n      \"codeType\": \"string\",\n      \"priceCents\": null,\n      \"priceKind\": \"string\",\n      \"label\": \"string\",\n      \"provenance\": {\n        \"authority\": \"string\",\n        \"confidence\": \"low\",\n        \"caveats\": [\n          \"string\",\n          \"string\"\n        ],\n        \"source_type\": \"string\",\n        \"sourceType\": \"string\",\n        \"source_label\": \"string\",\n        \"sourceLabel\": \"string\",\n        \"sourceUpdatedAt\": \"string\",\n        \"loaReviewedAt\": \"string\"\n      },\n      \"procedureDescription\": \"string\",\n      \"serviceCategory\": \"string\",\n      \"payerName\": \"string\",\n      \"planName\": \"string\",\n      \"setting\": \"string\",\n      \"billingClass\": \"string\",\n      \"component\": \"string\",\n      \"sourceRowId\": \"string\",\n      \"basePriceIndexId\": \"string\",\n      \"overlayRelationship\": \"string\",\n      \"comparableMrfPrice\": {\n        \"entityPageId\": \"bf6a5ebe-90e7-fddb-572b-331e0eae0dc5\",\n        \"cptCode\": \"string\",\n        \"codeType\": \"string\",\n        \"priceCents\": 6471,\n        \"priceKind\": \"string\",\n        \"label\": \"string\",\n        \"provenance\": {\n          \"authority\": \"string\",\n          \"confidence\": \"low\",\n          \"caveats\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"source_type\": \"string\",\n          \"sourceType\": \"string\",\n          \"source_label\": \"string\",\n          \"sourceLabel\": \"string\",\n          \"sourceUpdatedAt\": \"string\",\n          \"loaReviewedAt\": \"string\"\n        },\n        \"procedureDescription\": \"string\",\n        \"serviceCategory\": \"string\",\n        \"payerName\": \"string\",\n        \"planName\": \"string\",\n        \"setting\": \"string\",\n        \"billingClass\": \"string\",\n        \"component\": \"string\",\n        \"sourceRowId\": \"string\",\n        \"basePriceIndexId\": \"string\",\n        \"overlayRelationship\": \"string\"\n      }\n    },\n    {\n      \"entityPageId\": \"2614f62d-957e-4452-4e2f-db7603b68763\",\n      \"cptCode\": \"string\",\n      \"codeType\": \"string\",\n      \"priceCents\": 1673,\n      \"priceKind\": \"string\",\n      \"label\": \"string\",\n      \"provenance\": {\n        \"authority\": \"string\",\n        \"confidence\": \"high\",\n        \"caveats\": [\n          \"string\",\n          \"string\"\n        ],\n        \"source_type\": \"string\",\n        \"sourceType\": \"string\",\n        \"source_label\": \"string\",\n        \"sourceLabel\": \"string\",\n        \"sourceUpdatedAt\": \"string\",\n        \"loaReviewedAt\": \"string\"\n      },\n      \"procedureDescription\": \"string\",\n      \"serviceCategory\": \"string\",\n      \"payerName\": \"string\",\n      \"planName\": \"string\",\n      \"setting\": \"string\",\n      \"billingClass\": \"string\",\n      \"component\": \"string\",\n      \"sourceRowId\": \"string\",\n      \"basePriceIndexId\": \"string\",\n      \"overlayRelationship\": \"string\",\n      \"comparableMrfPrice\": {\n        \"entityPageId\": \"beee7185-044f-95f6-1a6c-e060407ae5e5\",\n        \"cptCode\": \"string\",\n        \"codeType\": \"string\",\n        \"priceCents\": null,\n        \"priceKind\": \"string\",\n        \"label\": \"string\",\n        \"provenance\": {\n          \"authority\": \"string\",\n          \"confidence\": \"medium\",\n          \"caveats\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"source_type\": \"string\",\n          \"sourceType\": \"string\",\n          \"source_label\": \"string\",\n          \"sourceLabel\": \"string\",\n          \"sourceUpdatedAt\": \"string\",\n          \"loaReviewedAt\": \"string\"\n        },\n        \"procedureDescription\": \"string\",\n        \"serviceCategory\": \"string\",\n        \"payerName\": \"string\",\n        \"planName\": \"string\",\n        \"setting\": \"string\",\n        \"billingClass\": \"string\",\n        \"component\": \"string\",\n        \"sourceRowId\": \"string\",\n        \"basePriceIndexId\": \"string\",\n        \"overlayRelationship\": \"string\"\n      }\n    }\n  ],\n  \"pagination\": {\n    \"limit\": 5362,\n    \"returned\": 9046\n  },\n  \"provenance\": {\n    \"authority\": \"string\",\n    \"confidence\": \"high\",\n    \"caveats\": [\n      \"string\",\n      \"string\"\n    ],\n    \"source_type\": \"string\",\n    \"sourceType\": \"string\",\n    \"source_label\": \"string\",\n    \"sourceLabel\": \"string\",\n    \"sourceUpdatedAt\": \"string\",\n    \"loaReviewedAt\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e19a9be0-5641-4520-8b28-5246986aef30",
+              "name": "InvalidEntityType or InvalidEntityPricesRequest.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":slug",
+                    "prices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cpt_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Exact Loa slug, or entity_pages.id for local/API clients."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8e51ccc5-1cd1-4c5f-b4b9-2e592ad8434a",
+              "name": "ApiClientUnauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":slug",
+                    "prices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cpt_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Exact Loa slug, or entity_pages.id for local/API clients."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "69b9175b-a3e3-4b35-9ce0-fdae0809e4e6",
+              "name": "ApiClientDisabled or ApiClientScopeDenied.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":slug",
+                    "prices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cpt_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Exact Loa slug, or entity_pages.id for local/API clients."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8f4d7491-ef96-4883-b76f-e5c6beeb158e",
+              "name": "EntityNotFound.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":slug",
+                    "prices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cpt_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Exact Loa slug, or entity_pages.id for local/API clients."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "40c545f2-fc57-4383-91fe-a36dcb4b0853",
+              "name": "ApiRateLimited.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    ":slug",
+                    "prices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cpt_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Exact Loa slug, or entity_pages.id for local/API clients."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f57d6845-26d0-49e9-9803-4a7fb4446687",
+    "name": "Loa Healthcare Pricing Entities API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Search source-labeled U.S. healthcare providers and hospitals, compare medical prices, and submit reviewed data updates.\n\nContact Support:\n Name: Loa",
+      "type": "text/plain"
+    }
+  }
+}

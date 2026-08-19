@@ -1,0 +1,164 @@
+openapi: 3.2.0
+info:
+  title: Loa Healthcare Pricing Prices API
+  version: 0.1.0
+  description: Search source-labeled U.S. healthcare providers and hospitals, compare medical prices, and submit reviewed data updates.
+  termsOfService: https://www.loacare.com/terms
+  contact:
+    name: Loa
+    url: https://www.loacare.com/api-partnership
+  license:
+    name: Loa Terms of Service
+    url: https://www.loacare.com/terms
+servers:
+- url: /api/v1
+tags:
+- name: Prices
+paths:
+  /prices/compare:
+    get:
+      operationId: comparePrices
+      summary: Compare source-labeled prices across entities
+      security:
+      - {}
+      - ProviderApiKey: []
+      parameters:
+      - name: entity
+        in: query
+        required: true
+        schema:
+          type: string
+        description: One or more Loa entity slugs. Repeat or comma-separate values, max 10 entities.
+      - name: cpt_code
+        in: query
+        required: true
+        schema:
+          type: string
+        description: One or more CPT codes. Repeat or comma-separate values, max 10 codes.
+      - name: limit_per_entity
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 25
+      responses:
+        '200':
+          description: Grouped comparisons by CPT code and entity.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceCompareResponse'
+        '400':
+          description: InvalidPriceCompareRequest.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: ApiClientUnauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: ApiClientDisabled or ApiClientScopeDenied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: EntityNotFound.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: ApiRateLimited.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+      - Prices
+components:
+  schemas:
+    PriceCompareResponse:
+      type: object
+      required:
+      - request_id
+      - query
+      - comparisons
+      - provenance
+      properties:
+        request_id:
+          type: string
+        query:
+          type: object
+          additionalProperties: true
+        comparisons:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        provenance:
+          $ref: '#/components/schemas/Provenance'
+    Provenance:
+      type: object
+      required:
+      - authority
+      - confidence
+      - caveats
+      properties:
+        authority:
+          type: string
+        source_type:
+          type: string
+        sourceType:
+          type: string
+        source_label:
+          type: string
+        sourceLabel:
+          type: string
+        sourceUpdatedAt:
+          type: string
+        loaReviewedAt:
+          type: string
+        confidence:
+          type: string
+          enum:
+          - high
+          - medium
+          - low
+        caveats:
+          type: array
+          items:
+            type: string
+    NamedError:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    ErrorResponse:
+      type: object
+      required:
+      - request_id
+      - error
+      properties:
+        request_id:
+          type: string
+        error:
+          $ref: '#/components/schemas/NamedError'
+  securitySchemes:
+    ProviderApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: Optional provider API key for metered clients. Local public reads still work without a key.
+externalDocs:
+  description: Loa healthcare pricing API documentation
+  url: https://www.loacare.com/api-partnership

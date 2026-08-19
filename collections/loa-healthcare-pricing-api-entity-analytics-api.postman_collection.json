@@ -1,0 +1,252 @@
+{
+  "item": [
+    {
+      "id": "e805564c-acd9-4041-9ad5-a3fd3ed1cc3c",
+      "name": "Entity Analytics",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b658ba0c-282b-4c25-a72f-b1831bbfd4ff",
+          "name": "Record an aggregate-safe entity analytics beacon",
+          "request": {
+            "name": "Record an aggregate-safe entity analytics beacon",
+            "description": {
+              "content": "Client beacon for SEO/profile traffic, outbound clicks, and search impressions. Raw identifiers are hashed or stripped before storage and provider dashboards only show aggregates.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "entity-analytics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"entity_page_id\": \"<uuid>\",\n  \"event_type\": \"<string>\",\n  \"source\": \"<string>\",\n  \"anonymous_session_id\": \"<string>\",\n  \"search_query\": \"<string>\",\n  \"searcher_city\": \"<string>\",\n  \"searcher_state\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": 5898\n  },\n  \"dedupe_key\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3f576d4a-6db6-4c95-9ef7-b8c2f995d5b7",
+              "name": "Analytics event accepted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entity-analytics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entity_page_id\": \"<uuid>\",\n  \"event_type\": \"<string>\",\n  \"source\": \"<string>\",\n  \"anonymous_session_id\": \"<string>\",\n  \"search_query\": \"<string>\",\n  \"searcher_city\": \"<string>\",\n  \"searcher_state\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": false\n  },\n  \"dedupe_key\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"ok\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "273825f2-e1ea-4f60-91b7-ee9dd6b1bbf8",
+              "name": "InvalidAnalyticsEvent.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entity-analytics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entity_page_id\": \"<uuid>\",\n  \"event_type\": \"<string>\",\n  \"source\": \"<string>\",\n  \"anonymous_session_id\": \"<string>\",\n  \"search_query\": \"<string>\",\n  \"searcher_city\": \"<string>\",\n  \"searcher_state\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": false\n  },\n  \"dedupe_key\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f2139983-fb31-4eb3-a49f-139414f20940",
+              "name": "AnalyticsRateLimited.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entity-analytics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entity_page_id\": \"<uuid>\",\n  \"event_type\": \"<string>\",\n  \"source\": \"<string>\",\n  \"anonymous_session_id\": \"<string>\",\n  \"search_query\": \"<string>\",\n  \"searcher_city\": \"<string>\",\n  \"searcher_state\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": false\n  },\n  \"dedupe_key\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a1523be5-c32d-4728-b5b6-73bc43334fec",
+              "name": "AnalyticsWriteFailed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entity-analytics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entity_page_id\": \"<uuid>\",\n  \"event_type\": \"<string>\",\n  \"source\": \"<string>\",\n  \"anonymous_session_id\": \"<string>\",\n  \"search_query\": \"<string>\",\n  \"searcher_city\": \"<string>\",\n  \"searcher_state\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": false\n  },\n  \"dedupe_key\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5b59462b-2ff5-4144-9524-cbbc12a96f90",
+    "name": "Loa Healthcare Pricing Entity Analytics API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Search source-labeled U.S. healthcare providers and hospitals, compare medical prices, and submit reviewed data updates.\n\nContact Support:\n Name: Loa",
+      "type": "text/plain"
+    }
+  }
+}

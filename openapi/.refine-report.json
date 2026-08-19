@@ -1,0 +1,26 @@
+{
+  "provider": "loa-healthcare-pricing-api",
+  "sources": [
+    "loa-healthcare-pricing-api-entities-api-openapi.yml",
+    "loa-healthcare-pricing-api-entity-analytics-api-openapi.yml",
+    "loa-healthcare-pricing-api-entity-updates-api-openapi.yml",
+    "loa-healthcare-pricing-api-prices-api-openapi.yml"
+  ],
+  "outputs": [
+    "loa-healthcare-pricing-api-entities-api-openapi.yml",
+    "loa-healthcare-pricing-api-entity-analytics-api-openapi.yml",
+    "loa-healthcare-pricing-api-entity-updates-api-openapi.yml",
+    "loa-healthcare-pricing-api-prices-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "loa-healthcare-pricing-api-entities-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "loa-healthcare-pricing-api-entity-analytics-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "loa-healthcare-pricing-api-entity-updates-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "loa-healthcare-pricing-api-prices-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": []
+}
