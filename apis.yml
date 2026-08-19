@@ -7,7 +7,7 @@ description: >-
 url: https://raw.githubusercontent.com/api-evangelist/loa-healthcare-pricing-api/refs/heads/main/apis.yml
 created: '2026-07-28'
 modified: '2026-08-02'
-specificationVersion: '0.21'
+specificationVersion: '0.23'
 tags:
   - healthcare
   - price transparency
