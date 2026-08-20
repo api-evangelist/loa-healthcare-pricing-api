@@ -9,6 +9,20 @@ created: '2026-07-28'
 modified: '2026-08-02'
 specificationVersion: '0.23'
 tags:
+  - Healthcare
+  - Price Transparency
+  - medical pricing
+  - Hospitals
+  - Providers
+  - Provider Directory
+  - hospital prices
+  - CPT
+  - HCPCS
+  - MCP
+  - agent-native
+  - OpenAPI
+  - llms-txt
+tags_raw:
   - healthcare
   - price transparency
   - medical pricing
@@ -32,6 +46,20 @@ apis:
   humanURL: https://www.loacare.com/mcp
   baseURL: https://www.loacare.com/api/mcp
   tags:
+  - Healthcare
+  - Price Transparency
+  - medical pricing
+  - Hospitals
+  - Providers
+  - Provider Directory
+  - hospital prices
+  - CPT
+  - HCPCS
+  - MCP
+  - agent-native
+  - OpenAPI
+  - llms-txt
+  tags_raw:
   - healthcare
   - price transparency
   - medical pricing
