@@ -5,6 +5,17 @@ description: >-
   comes from 6,000+ hospital Machine Readable Files under the federal Hospital Price Transparency Rule plus CMS NPI
   Registry and Loa-reviewed provider submissions.
 url: https://raw.githubusercontent.com/api-evangelist/loa-healthcare-pricing-api/refs/heads/main/apis.yml
+deliveryModel:
+  model: unknown
+  open_source: false
+  commercial: false
+  callable_host: false
+  label: Delivery model not determined — needs a product licence on record
+  confidence: low
+  source:
+  - openapi
+  generated: '2026-08-28'
+  method: derived
 created: '2026-07-28'
 modified: '2026-08-02'
 specificationVersion: '0.23'
