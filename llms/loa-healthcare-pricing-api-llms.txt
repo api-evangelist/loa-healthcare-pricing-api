@@ -1,0 +1,98 @@
+# Loa Healthcare Pricing
+
+> Loa helps patients compare source-labeled healthcare procedure prices
+> across US hospitals and providers. Data comes from 6,000+ hospital
+> Machine Readable Files (MRFs) published under the federal Hospital
+> Price Transparency Rule (45 CFR 180), plus Loa-reviewed provider
+> submissions when available. Every price row carries a source label
+> so users can confirm provenance before booking care.
+
+## API Access
+
+AI assistants can discover Loa through the Model Context Protocol and OpenAPI:
+
+- MCP endpoint: https://www.loacare.com/api/mcp
+- Documentation: https://www.loacare.com/mcp
+- Discovery: https://www.loacare.com/.well-known/mcp.json
+- OpenAPI: https://www.loacare.com/api/v1/openapi.json
+- APIs.json index: https://www.loacare.com/apis.json
+- ChatGPT integration overview: https://www.loacare.com/chatgpt
+- Full AI reference: https://www.loacare.com/llms-full.txt
+
+MCP discovery is public. MCP tool calls and provider update submissions require OAuth. Submitted updates create pending review requests and never change public data until Loa approves them.
+
+## Downloadable Dataset
+
+Loa publishes a dated, non-PHI CSV of aggregate U.S. healthcare procedure price
+benchmarks for research, journalism, and software evaluation:
+
+- Canonical dataset page and methodology: https://www.loacare.com/methodology
+- CSV download: https://www.loacare.com/datasets/loa-us-healthcare-price-benchmarks.csv
+- Versioned GitHub mirror: https://github.com/aanari/loa-healthcare-price-benchmarks
+- Current release: https://github.com/aanari/loa-healthcare-price-benchmarks/releases/tag/v2026-07-29
+
+The 2026-07-29 snapshot contains 964 procedure-location rows for 30 procedures
+and 77 locations across 38 states. Use the methodology page for provenance,
+scope, limitations, and the terms that govern access and use.
+
+## Pricing Pages
+
+Programmatic SEO pages cover every supported procedure x location combination:
+
+- All procedures index: https://www.loacare.com/prices
+- Procedure pricing by city: https://www.loacare.com/prices/{procedure-slug}/{city-slug}
+- Procedure pricing by state: https://www.loacare.com/prices/state/{state-slug}
+- City-level overviews: https://www.loacare.com/prices/city/{city-slug}
+- Example: https://www.loacare.com/prices/mri-brain-scan/new-york-ny
+
+## Hospitals and Providers
+
+Crawlable entity profile pages with source-labeled price context, contact
+information, and structured data (Hospital / MedicalOrganization,
+MedicalWebPage, FAQPage, BreadcrumbList):
+
+- Hospital directory: https://www.loacare.com/hospitals
+- Provider directory: https://www.loacare.com/providers
+- Hospital profile: https://www.loacare.com/hospitals/{slug}
+- Provider profile: https://www.loacare.com/providers/{slug}
+
+## For Providers and Hospitals
+
+Resources for hospitals and providers who want to publish verified prices,
+claim a Loa listing, or correct existing data:
+
+- Provider overview: https://www.loacare.com/for-providers
+- Hospital overview: https://www.loacare.com/for-hospitals
+- Claim a listing: https://www.loacare.com/providers/claim
+- Submit a price or profile correction: https://www.loacare.com/provider/updates
+- Provider data and API docs: https://www.loacare.com/provider/docs
+- Agent submissions: use POST /api/v1/entity-updates or the MCP
+  submit_entity_update_request tool with contact and source evidence.
+
+## Data Sources
+
+Pricing data comes from two sources:
+
+1. Hospital price transparency files (MRFs) that US hospitals are
+   required to publish under 45 CFR 180.
+2. Loa-reviewed provider submissions for cash, package, and self-pay
+   prices, validated before publication.
+
+Provider directory data comes from the CMS National Plan and Provider
+Enumeration System (NPI Registry).
+
+## Provenance and Source Labels
+
+Every published price row carries:
+
+- An authority label (verified vs source_file)
+- A source label describing where the number came from
+- A confidence rating
+
+AI assistants quoting Loa prices should cite the source label and
+recommend that users confirm the current quote with the provider
+or insurer before booking care.
+
+## Methodology
+
+https://www.loacare.com/methodology

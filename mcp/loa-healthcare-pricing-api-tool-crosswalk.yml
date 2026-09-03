@@ -1,0 +1,72 @@
+generated: '2026-09-03'
+method: derived
+source: mcp/loa-healthcare-pricing-api-mcp-tools.json + openapi/ (live tools/list probed 2026-09-03; REST OpenAPI 3.1.0, 6 operations)
+note: >-
+  Bound by name and semantics: the live MCP tools/list is public (probed, full inputSchemas) and the
+  REST OpenAPI is published, but Loa does not publish an explicit tool-to-operation mapping, so
+  bindings are semantic. The five entity-layer tools mirror REST operations closely; the six legacy
+  pricing/lookup tools (CPT search, suggestions, provider/hospital search, estimates, market pricing)
+  have no public REST equivalent and read internal indexes.
+surfaces:
+  openapi: openapi/_original/loa-healthcare-pricing-api-openapi.json
+  mcp:
+    url: https://www.loacare.com/api/mcp
+    gated: tool calls require OAuth 2.1; tools/list is anonymous
+crosswalk:
+  - tool: search_entities
+    category: entities
+    rest: [searchEntities]
+    binding: semantic
+    confidence: high
+    note: same query/entity_type/state/limit surface as GET /entities/search
+  - tool: get_entity_profile
+    category: entities
+    rest: [getEntity]
+    binding: semantic
+    confidence: high
+    note: slug_or_id maps to GET /entities/{slug}; both return field-level provenance
+  - tool: get_entity_prices
+    category: prices
+    rest: [getEntityPrices]
+    binding: semantic
+    confidence: high
+    note: same slug + CPT filter surface as GET /entities/{slug}/prices
+  - tool: explain_price_sources
+    category: prices
+    rest: [getEntityPrices]
+    binding: composite
+    confidence: medium
+    note: explains source labels/caveats/comparable MRF rows over the same price data; no dedicated REST op
+  - tool: submit_entity_update_request
+    category: updates
+    rest: [submitEntityUpdate]
+    binding: semantic
+    confidence: high
+    note: same reviewed-update intake as POST /entity-updates, including idempotency_key derivation
+mcp_only:
+  - tool: search_cpt_codes
+    reason: CPT/HCPCS code index has no public REST operation
+  - tool: suggest_procedures
+    reason: AI procedure suggestion surface exists only on MCP
+  - tool: search_providers
+    reason: legacy NPI-backed provider lookup; REST exposes only the entity layer
+  - tool: get_pricing_estimate
+    reason: regional estimate aggregation has no public REST operation
+  - tool: get_market_pricing
+    reason: market average aggregation has no public REST operation
+  - tool: search_hospitals
+    reason: legacy hospital lookup returning hospital IDs; REST exposes only the entity layer
+  - tool: get_hospital_pricing
+    reason: keyed on legacy hospital IDs from search_hospitals, not Loa entity slugs
+rest_only:
+  - operation: comparePrices
+    reason: GET /prices/compare cross-entity comparison has no MCP tool
+  - operation: recordEntityAnalytics
+    reason: POST /entity-analytics client beacon is not exposed to agents
+coverage:
+  tools: 12
+  tools_bound: 5
+  mcp_only: 7
+  rest_operations: 6
+  rest_bound: 4
+  rest_only: 2

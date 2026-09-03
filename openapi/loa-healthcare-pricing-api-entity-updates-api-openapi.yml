@@ -76,6 +76,65 @@ paths:
       - Entity Updates
 components:
   schemas:
+    EntityUpdatePriceItem:
+      type: object
+      required:
+      - cpt_code
+      properties:
+        cpt_code:
+          type: string
+          minLength: 3
+          maxLength: 20
+          pattern: ^(\d{5}|[A-Za-z]\d{4})$
+          description: 5-digit CPT code or HCPCS Level II code.
+        code_type:
+          type: string
+          default: CPT
+        service_name:
+          type: string
+          maxLength: 300
+        price_kind:
+          type: string
+          enum:
+          - cash
+          - discounted_cash
+          - package_cash
+          - payer_negotiated
+          default: cash
+        proposed_price_cents:
+          type: integer
+          minimum: 1
+        payer_name:
+          type: string
+          maxLength: 300
+        plan_name:
+          type: string
+          maxLength: 300
+        setting:
+          type: string
+          maxLength: 100
+        billing_class:
+          type: string
+          maxLength: 100
+        component:
+          type: string
+          enum:
+          - global
+          - professional
+          - facility
+          - unknown
+          default: unknown
+        included_services:
+          type: array
+          items:
+            type: string
+            maxLength: 300
+        exclusions:
+          type: string
+          maxLength: 1000
+        price_notes:
+          type: string
+          maxLength: 1000
     EntityUpdateRequest:
       type: object
       required:
@@ -150,85 +209,6 @@ components:
           maxItems: 100
           items:
             $ref: '#/components/schemas/EntityUpdatePriceItem'
-    EntityUpdatePriceItem:
-      type: object
-      required:
-      - cpt_code
-      properties:
-        cpt_code:
-          type: string
-          minLength: 3
-          maxLength: 20
-          pattern: ^(\d{5}|[A-Za-z]\d{4})$
-          description: 5-digit CPT code or HCPCS Level II code.
-        code_type:
-          type: string
-          default: CPT
-        service_name:
-          type: string
-          maxLength: 300
-        price_kind:
-          type: string
-          enum:
-          - cash
-          - discounted_cash
-          - package_cash
-          - payer_negotiated
-          default: cash
-        proposed_price_cents:
-          type: integer
-          minimum: 1
-        payer_name:
-          type: string
-          maxLength: 300
-        plan_name:
-          type: string
-          maxLength: 300
-        setting:
-          type: string
-          maxLength: 100
-        billing_class:
-          type: string
-          maxLength: 100
-        component:
-          type: string
-          enum:
-          - global
-          - professional
-          - facility
-          - unknown
-          default: unknown
-        included_services:
-          type: array
-          items:
-            type: string
-            maxLength: 300
-        exclusions:
-          type: string
-          maxLength: 1000
-        price_notes:
-          type: string
-          maxLength: 1000
-    NamedError:
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    ErrorResponse:
-      type: object
-      required:
-      - request_id
-      - error
-      properties:
-        request_id:
-          type: string
-        error:
-          $ref: '#/components/schemas/NamedError'
     EntityUpdateResponse:
       type: object
       required:
@@ -251,6 +231,26 @@ components:
           type: string
         reused_existing:
           type: boolean
+    ErrorResponse:
+      type: object
+      required:
+      - request_id
+      - error
+      properties:
+        request_id:
+          type: string
+        error:
+          $ref: '#/components/schemas/NamedError'
+    NamedError:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
   securitySchemes:
     ProviderApiKey:
       type: apiKey

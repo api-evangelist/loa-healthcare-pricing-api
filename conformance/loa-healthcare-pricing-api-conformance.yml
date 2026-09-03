@@ -1,0 +1,56 @@
+generated: '2026-09-03'
+method: derived
+source: openapi/_original/loa-healthcare-pricing-api-openapi.json + https://www.loacare.com/methodology + https://www.loacare.com/.well-known/oauth-protected-resource
+standards:
+  - id: oauth2
+    conforms: true
+    evidence: >-
+      MCP surface uses OAuth 2.1 with RFC 8414 authorization-server metadata
+      (/.well-known/oauth-authorization-server, HTTP 200) and RFC 9728 protected-resource metadata
+      (/.well-known/oauth-protected-resource, HTTP 200) naming a Supabase issuer with dynamic client
+      registration. REST surface uses an optional x-api-key header instead.
+  - id: oidc
+    conforms: partial
+    evidence: >-
+      The authorization server advertises openid/profile/email scopes and id_token signing algs, but
+      Loa itself serves no /.well-known/openid-configuration (404); OIDC is delegated to the
+      Supabase-hosted issuer.
+  - id: rfc9457
+    conforms: false
+    evidence: >-
+      Errors use a custom application/json envelope {request_id, error:{code,message}} with named codes
+      (ErrorResponse/NamedError schemas), not application/problem+json.
+  - id: pagination
+    conforms: partial
+    evidence: >-
+      List endpoints take limit and return a Pagination{limit,returned} object (EntitySearchResponse,
+      EntityPricesResponse); no cursor or offset for pages beyond the first.
+  - id: idempotency
+    conforms: partial
+    evidence: >-
+      POST /entity-updates accepts idempotency_key (schema EntityUpdateRequest, derived server-side when
+      omitted; 200 = existing request reused vs 201 = created). POST /entity-analytics has a dedupe_key.
+      No Idempotency-Key header convention.
+  - id: fhir
+    conforms: false
+    evidence: No FHIR resources or endpoints; entity/price schemas are Loa-proprietary.
+domain_standards:
+  - id: cpt-hcpcs
+    conforms: true
+    evidence: >-
+      The contract declares CPT/HCPCS coding: EntityUpdatePriceItem.cpt_code pattern
+      "^(\\d{5}|[A-Za-z]\\d{4})$" with code_type default CPT, and cpt_code filters on
+      /entities/{slug}/prices and /prices/compare (openapi.json components + parameters).
+  - id: npi
+    conforms: true
+    evidence: >-
+      EntityProfile declares npi and ccn identifier fields (CMS NPI Registry and CMS Certification
+      Number schemes); methodology page states provider directory data comes from the CMS NPPES NPI
+      Registry.
+  - id: hospital-price-transparency-mrf
+    conforms: true
+    evidence: >-
+      Data layer is built from Hospital Price Transparency Rule (45 CFR 180) Machine Readable Files;
+      the Provenance schema labels rows (authority/source_type/confidence) and the methodology page
+      documents MRF collection, normalization, and limitations. Loa consumes the MRF standard; it does
+      not republish MRF-format files itself.

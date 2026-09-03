@@ -1,0 +1,49 @@
+generated: '2026-09-03'
+method: probed
+source: https://www.loacare.com/.well-known/
+note: >-
+  www.loacare.com serves real OAuth 2.0 authorization-server metadata (RFC 8414, proxying its Supabase
+  issuer), OAuth protected-resource metadata (RFC 9728) for the MCP endpoint, and a non-standard but
+  well-formed /.well-known/mcp.json MCP discovery document. No security.txt, openid-configuration,
+  api-catalog, ai-plugin.json, or A2A agent card. The apex loacare.com 307-redirects every /.well-known/
+  path to www. The authorization server named in the protected-resource doc is a Supabase-hosted issuer
+  (eknkfyyjqxuvgdzocccu.supabase.co/auth/v1); its root well-known 404s (path-scoped issuer) and its
+  jwks.json answers 200.
+hosts:
+  - host: www.loacare.com
+    documents:
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        file: well-known/loa-healthcare-pricing-api-oauth-authorization-server.json
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        file: well-known/loa-healthcare-pricing-api-oauth-protected-resource.json
+      - path: /.well-known/mcp.json
+        status: 200
+        file: well-known/loa-healthcare-pricing-api-mcp.json
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: loacare.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 307
+        note: apex 307-redirects all /.well-known/ paths to www.loacare.com
+      - path: /.well-known/agent-card.json
+        status: 307
+  - host: eknkfyyjqxuvgdzocccu.supabase.co
+    note: authorization server named by the protected-resource metadata; Supabase-hosted issuer, not a Loa-controlled surface
+    documents:
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /auth/v1/.well-known/jwks.json
+        status: 200

@@ -1,0 +1,21 @@
+generated: '2026-09-03'
+method: derived
+source: openapi/loa-healthcare-pricing-api-entities-api-openapi.yml, openapi/loa-healthcare-pricing-api-entity-analytics-api-openapi.yml,
+  openapi/loa-healthcare-pricing-api-entity-updates-api-openapi.yml, openapi/loa-healthcare-pricing-api-prices-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: ProviderApiKey
+  type: apiKey
+  in: header
+  parameter: x-api-key
+  description: Optional provider API key for metered clients. Local public reads still work
+    without a key.
+  sources:
+  - openapi/loa-healthcare-pricing-api-entities-api-openapi.yml
+  - openapi/loa-healthcare-pricing-api-entity-analytics-api-openapi.yml
+  - openapi/loa-healthcare-pricing-api-entity-updates-api-openapi.yml
+  - openapi/loa-healthcare-pricing-api-prices-api-openapi.yml

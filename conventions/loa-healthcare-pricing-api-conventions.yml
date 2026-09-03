@@ -1,0 +1,61 @@
+generated: '2026-09-03'
+method: derived
+source: openapi/_original/loa-healthcare-pricing-api-openapi.json + https://www.loacare.com/provider/docs + https://www.loacare.com/mcp
+authentication:
+  style: optional API key (x-api-key header) on REST; OAuth 2.1 bearer on MCP tool calls
+  cross_link: authentication/loa-healthcare-pricing-api-authentication.yml
+request_tracing:
+  field: request_id
+  note: Every documented response body, success and error, carries a request_id.
+pagination:
+  style: limit-only
+  params: [limit]
+  response_fields: [pagination.limit, pagination.returned]
+  note: No cursor/offset; list endpoints cap at limit 50-100 depending on route.
+versioning:
+  style: url-path
+  current: /api/v1
+error_envelope:
+  shape: "{request_id, error: {code, message}}"
+  format: custom named codes, not RFC 9457
+  cross_link: errors/loa-healthcare-pricing-api-problem-types.yml
+rate_limit_signaling:
+  status: 429
+  codes: [ApiRateLimited, AnalyticsRateLimited]
+  headers: []
+  note: No rate-limit response headers documented.
+  cross_link: rate-limits/loa-healthcare-pricing-api-rate-limits.yml
+idempotency:
+  coverage: full
+  mechanism: request-body key
+  note: >-
+    Both mutating operations carry replay protection in the request body rather than a header:
+    POST /entity-updates accepts idempotency_key (min 8 chars; Loa derives a stable key from the
+    payload when omitted; a replay returns 200 with reused_existing=true instead of 201), and
+    POST /entity-analytics accepts dedupe_key. Read operations are safe GETs.
+  scope: [submitEntityUpdate, recordEntityAnalytics]
+reversibility:
+  grade: none
+  note: >-
+    No reversal operations exist. The only durable write, submitEntityUpdate, creates a PENDING
+    review request that never changes public data until Loa staff approve it — the human review
+    step is the safety net, but the API documents no way to cancel or withdraw a submitted request
+    and no reversal window. recordEntityAnalytics beacons are fire-and-forget with no delete.
+  writes:
+    - operation: submitEntityUpdate
+      reversal: null
+      window: null
+      note: request_type remove_listing can undo a LISTING via a new reviewed request, but the request itself cannot be withdrawn through the API
+    - operation: recordEntityAnalytics
+      reversal: null
+      window: null
+dry_run_mode:
+  supported: false
+  note: No dry-run/test mode documented for update submissions.
+metadata:
+  note: EntityProfile.metadata and proposed_changes are free-form objects (additionalProperties true).
+provenance_convention:
+  note: >-
+    Distinctive house convention: responses attach a Provenance object (authority, source_type,
+    source_label, confidence, caveats) and entity profiles add field-level provenance maps, keeping
+    Published MRF prices distinct from Loa Verified Provider Price overlays.

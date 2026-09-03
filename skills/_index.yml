@@ -1,0 +1,13 @@
+generated: '2026-09-03'
+method: generated
+source: openapi/_original/loa-healthcare-pricing-api-openapi.json + https://www.loacare.com/provider/docs
+skills:
+  - file: skills/loa-healthcare-pricing-api-find-entity-prices.md
+    name: find-entity-prices
+    operations: [searchEntities, getEntityPrices]
+  - file: skills/loa-healthcare-pricing-api-compare-procedure-prices.md
+    name: compare-procedure-prices
+    operations: [searchEntities, comparePrices]
+  - file: skills/loa-healthcare-pricing-api-submit-price-correction.md
+    name: submit-price-correction
+    operations: [searchEntities, submitEntityUpdate]

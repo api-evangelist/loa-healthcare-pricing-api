@@ -1,0 +1,17 @@
+generated: '2026-09-03'
+method: searched
+source: https://www.loacare.com/.well-known/oauth-protected-resource
+docs: https://www.loacare.com/mcp
+note: >-
+  OAuth applies to the MCP surface only; the REST OpenAPI declares a single optional apiKey scheme with
+  no oauth2 flows (derive-oauth-scopes found no spec-declared scopes). Scopes below are the identity
+  scopes the protected-resource metadata advertises — there are no resource-permission scopes; access
+  tiers (authenticated / suggestions / linked provider) are enforced per-account, not per-scope.
+authorization_server: https://eknkfyyjqxuvgdzocccu.supabase.co/auth/v1
+scopes:
+  - name: openid
+    description: OpenID Connect authentication for MCP tool calls.
+  - name: email
+    description: Submitter email identity, used by reviewed update submissions.
+  - name: profile
+    description: Basic profile identity for linked-provider affiliation signals.

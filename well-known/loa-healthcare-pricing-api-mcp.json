@@ -1,0 +1,61 @@
+{
+    "mcp_endpoint": "https://www.loacare.com/api/mcp",
+    "name": "LOA Healthcare Pricing",
+    "description": "Model Context Protocol server providing AI assistants with access to source-labeled healthcare pricing data, CPT code lookups, provider directories, hospital price transparency data, and Loa-reviewed provider corrections.",
+    "version": "1.0.0",
+    "documentation": "https://www.loacare.com/mcp",
+    "authentication": {
+        "type": "oauth2",
+        "resource_metadata": "https://www.loacare.com/.well-known/oauth-protected-resource"
+    },
+    "tools": [
+        {
+            "name": "search_cpt_codes",
+            "description": "Search for medical procedure codes (CPT/HCPCS) by name, description, or code number"
+        },
+        {
+            "name": "suggest_procedures",
+            "description": "Get AI-powered procedure suggestions from a natural language description"
+        },
+        {
+            "name": "search_providers",
+            "description": "Search for healthcare providers (doctors, specialists) by name, specialty, or location"
+        },
+        {
+            "name": "get_pricing_estimate",
+            "description": "Get estimated costs for medical procedures based on hospital pricing data"
+        },
+        {
+            "name": "get_market_pricing",
+            "description": "Get market average pricing for procedures including cash pay and insurance rates"
+        },
+        {
+            "name": "search_hospitals",
+            "description": "Search for hospitals by location or name"
+        },
+        {
+            "name": "get_hospital_pricing",
+            "description": "Get source-labeled hospital pricing, including Published MRF rates and reviewed provider overlays"
+        },
+        {
+            "name": "search_entities",
+            "description": "Search Loa runtime hospital and provider entity pages by name, state, or type"
+        },
+        {
+            "name": "get_entity_profile",
+            "description": "Get one Loa hospital or provider entity profile by slug or id with field-level provenance"
+        },
+        {
+            "name": "get_entity_prices",
+            "description": "Get Published MRF and Loa Verified Provider Price data for one Loa hospital or provider entity"
+        },
+        {
+            "name": "explain_price_sources",
+            "description": "Explain source labels, confidence, caveats, and comparable MRF prices for one Loa entity"
+        },
+        {
+            "name": "submit_entity_update_request",
+            "description": "Submit a provider or hospital profile, listing, or price correction with contact and source evidence for Loa review"
+        }
+    ]
+}

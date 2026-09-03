@@ -1,0 +1,48 @@
+generated: '2026-09-03'
+method: derived
+source: openapi/_original/loa-healthcare-pricing-api-openapi.json ($refs + id-reference fields)
+entities:
+  - name: Entity
+    schema: EntityProfile
+    id: id (uuid) + slug
+    note: entity_type is hospital or provider; carries npi, ccn, hpfId identifiers and dataQualityScore.
+  - name: ResolvedPrice
+    schema: ResolvedPrice / ComparableResolvedPrice
+    id: sourceRowId / basePriceIndexId
+    note: source-labeled price row keyed by cptCode + priceKind (cash, discounted_cash, package_cash, payer_negotiated).
+  - name: Provenance
+    schema: Provenance / ProfileFieldProvenance
+    note: attached to every response and per profile field; authority/source_type/confidence/caveats.
+  - name: EntityUpdateRequest
+    schema: EntityUpdateRequest -> EntityUpdateResponse
+    id: update_request_id (uuid)
+    note: reviewed correction intake with price_items[] and attestation.
+  - name: EntityAnalyticsEvent
+    schema: EntityAnalyticsEvent
+    note: aggregate-safe beacon; identifiers hashed or stripped before storage.
+relationships:
+  - from: Entity
+    to: ResolvedPrice
+    kind: has_many
+    via: ResolvedPrice.entityPageId
+  - from: ResolvedPrice
+    to: ComparableResolvedPrice
+    kind: has_one
+    via: comparableMrfPrice
+    note: a reviewed provider price links to its matching current MRF row (overlayRelationship)
+  - from: ResolvedPrice
+    to: Provenance
+    kind: has_one
+    via: provenance
+  - from: EntityUpdateRequest
+    to: Entity
+    kind: belongs_to
+    via: entity_page_id / entity_slug
+  - from: EntityUpdateRequest
+    to: ResolvedPrice
+    kind: has_many
+    via: price_items[] (approved requests publish verified price overlays)
+  - from: EntityAnalyticsEvent
+    to: Entity
+    kind: belongs_to
+    via: entity_page_id

@@ -1,0 +1,2867 @@
+{
+    "result": {
+        "tools": [
+            {
+                "name": "search_cpt_codes",
+                "title": "CPT Code Search",
+                "description": "Canonical code-lookup tool for this server. Search Loa's CPT/HCPCS index using exact codes, clinical terms, or consumer phrases. Use this first when the user does not already know the CPT code, before calling pricing tools.",
+                "inputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "query": {
+                            "type": "string",
+                            "description": "Search query, procedure name, medical term, or CPT code number (e.g. \"knee MRI\", \"blood work\", \"99213\")"
+                        },
+                        "specialty": {
+                            "description": "Filter by medical specialty (e.g. \"cardiology\", \"dermatology\")",
+                            "type": "string"
+                        },
+                        "category": {
+                            "description": "Filter by category: \"evaluation_management\", \"laboratory\", \"radiology\", \"surgery\", \"preventive\"",
+                            "type": "string"
+                        },
+                        "limit": {
+                            "description": "Maximum number of results (default 10, max 25)",
+                            "default": 10,
+                            "type": "number",
+                            "minimum": 1,
+                            "maximum": 25
+                        }
+                    },
+                    "required": [
+                        "query"
+                    ]
+                },
+                "annotations": {
+                    "readOnlyHint": true,
+                    "destructiveHint": false,
+                    "idempotentHint": true,
+                    "openWorldHint": false
+                },
+                "execution": {
+                    "taskSupport": "forbidden"
+                },
+                "outputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "query": {
+                            "type": "string"
+                        },
+                        "specialty": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
+                        },
+                        "category": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
+                        },
+                        "total": {
+                            "type": "number"
+                        },
+                        "provenance": {
+                            "type": "object",
+                            "properties": {
+                                "authority": {
+                                    "type": "string",
+                                    "enum": [
+                                        "authoritative",
+                                        "advisory",
+                                        "estimate"
+                                    ]
+                                },
+                                "basis": {
+                                    "type": "string"
+                                },
+                                "source_scope": {
+                                    "type": "string"
+                                },
+                                "source_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                },
+                                "methodology_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                }
+                            },
+                            "required": [
+                                "authority",
+                                "basis",
+                                "methodology_url"
+                            ],
+                            "additionalProperties": false
+                        },
+                        "results": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "code": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "category": {
+                                        "type": "string"
+                                    },
+                                    "isCommon": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "required": [
+                                    "code",
+                                    "name",
+                                    "description",
+                                    "category",
+                                    "isCommon"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    },
+                    "required": [
+                        "query",
+                        "specialty",
+                        "category",
+                        "total",
+                        "provenance",
+                        "results"
+                    ],
+                    "additionalProperties": false
+                },
+                "securitySchemes": [
+                    {
+                        "type": "oauth2",
+                        "scopes": [
+                            "openid",
+                            "email",
+                            "profile"
+                        ]
+                    }
+                ],
+                "_meta": {
+                    "securitySchemes": [
+                        {
+                            "type": "oauth2",
+                            "scopes": [
+                                "openid",
+                                "email",
+                                "profile"
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "suggest_procedures",
+                "title": "Procedure Suggestions",
+                "description": "Advisory helper that suggests likely CPT codes from a plain-English medical need. Uses Loa heuristics plus AI and is not authoritative or diagnostic. Use only when the user cannot name the procedure, then confirm candidates with search_cpt_codes before pricing them. Requires a LOA account.",
+                "inputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "query": {
+                            "type": "string",
+                            "minLength": 2,
+                            "description": "Natural language description of the medical need (e.g. \"I have a rash on my arm\", \"need imaging for my lower back pain\")"
+                        }
+                    },
+                    "required": [
+                        "query"
+                    ]
+                },
+                "annotations": {
+                    "readOnlyHint": true,
+                    "destructiveHint": false,
+                    "idempotentHint": true,
+                    "openWorldHint": true
+                },
+                "execution": {
+                    "taskSupport": "forbidden"
+                },
+                "outputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "specialty_browse",
+                                "imaging_browse",
+                                "search_results"
+                            ]
+                        },
+                        "interpretation": {
+                            "type": "string"
+                        },
+                        "needsConfirmationWith": {
+                            "type": "string",
+                            "const": "search_cpt_codes"
+                        },
+                        "provenance": {
+                            "type": "object",
+                            "properties": {
+                                "authority": {
+                                    "type": "string",
+                                    "enum": [
+                                        "authoritative",
+                                        "advisory",
+                                        "estimate"
+                                    ]
+                                },
+                                "basis": {
+                                    "type": "string"
+                                },
+                                "source_scope": {
+                                    "type": "string"
+                                },
+                                "source_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                },
+                                "methodology_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                }
+                            },
+                            "required": [
+                                "authority",
+                                "basis",
+                                "methodology_url"
+                            ],
+                            "additionalProperties": false
+                        },
+                        "suggestedCodes": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "code": {
+                                        "type": "string"
+                                    },
+                                    "friendlyName": {
+                                        "type": "string"
+                                    },
+                                    "technicalName": {
+                                        "type": "string"
+                                    },
+                                    "whyRelevant": {
+                                        "type": "string"
+                                    },
+                                    "relevance": {
+                                        "type": "string",
+                                        "enum": [
+                                            "high",
+                                            "medium",
+                                            "low"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "code",
+                                    "friendlyName",
+                                    "technicalName",
+                                    "whyRelevant",
+                                    "relevance"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "interpretation",
+                        "needsConfirmationWith",
+                        "provenance",
+                        "suggestedCodes"
+                    ],
+                    "additionalProperties": false
+                },
+                "securitySchemes": [
+                    {
+                        "type": "oauth2",
+                        "scopes": [
+                            "openid",
+                            "email",
+                            "profile"
+                        ]
+                    }
+                ],
+                "_meta": {
+                    "securitySchemes": [
+                        {
+                            "type": "oauth2",
+                            "scopes": [
+                                "openid",
+                                "email",
+                                "profile"
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "search_providers",
+                "title": "Provider Search",
+                "description": "Search public CMS NPI Registry data for clinicians and healthcare organizations by specialty, name, or location. Use returned provenance to understand the registry source and scope. Use this for provider lookup, not pricing.",
+                "inputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "specialty": {
+                            "description": "Medical specialty (e.g. \"Cardiology\", \"Family Medicine\")",
+                            "type": "string"
+                        },
+                        "location": {
+                            "description": "Location to search in",
+                            "type": "object",
+                            "properties": {
+                                "city": {
+                                    "description": "City name",
+                                    "type": "string"
+                                },
+                                "state": {
+                                    "description": "State code or full name (e.g. \"CA\", \"California\")",
+                                    "type": "string"
+                                },
+                                "zip_code": {
+                                    "description": "ZIP code",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "name": {
+                            "description": "Provider name to search for (e.g. \"John Smith\")",
+                            "type": "string"
+                        },
+                        "limit": {
+                            "description": "Max results (default 20)",
+                            "default": 20,
+                            "type": "number",
+                            "minimum": 1,
+                            "maximum": 50
+                        }
+                    }
+                },
+                "annotations": {
+                    "readOnlyHint": true,
+                    "destructiveHint": false,
+                    "idempotentHint": true,
+                    "openWorldHint": false
+                },
+                "execution": {
+                    "taskSupport": "forbidden"
+                },
+                "outputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "query": {
+                            "type": "object",
+                            "properties": {
+                                "specialty": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "name": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "location": {
+                                    "type": "object",
+                                    "properties": {
+                                        "city": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "state": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "zip_code": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "city",
+                                        "state",
+                                        "zip_code"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            },
+                            "required": [
+                                "specialty",
+                                "name",
+                                "location"
+                            ],
+                            "additionalProperties": false
+                        },
+                        "providers": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "npi": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "specialty": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "state": {
+                                        "type": "string"
+                                    },
+                                    "zip_code": {
+                                        "type": "string"
+                                    },
+                                    "phone": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "npi",
+                                    "name",
+                                    "specialty",
+                                    "address",
+                                    "city",
+                                    "state",
+                                    "zip_code",
+                                    "phone"
+                                ],
+                                "additionalProperties": false
+                            }
+                        },
+                        "total": {
+                            "type": "number"
+                        },
+                        "provenance": {
+                            "type": "object",
+                            "properties": {
+                                "authority": {
+                                    "type": "string",
+                                    "enum": [
+                                        "authoritative",
+                                        "advisory",
+                                        "estimate"
+                                    ]
+                                },
+                                "basis": {
+                                    "type": "string"
+                                },
+                                "source_scope": {
+                                    "type": "string"
+                                },
+                                "source_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                },
+                                "methodology_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                }
+                            },
+                            "required": [
+                                "authority",
+                                "basis",
+                                "methodology_url"
+                            ],
+                            "additionalProperties": false
+                        }
+                    },
+                    "required": [
+                        "query",
+                        "providers",
+                        "total",
+                        "provenance"
+                    ],
+                    "additionalProperties": false
+                },
+                "securitySchemes": [
+                    {
+                        "type": "oauth2",
+                        "scopes": [
+                            "openid",
+                            "email",
+                            "profile"
+                        ]
+                    }
+                ],
+                "_meta": {
+                    "securitySchemes": [
+                        {
+                            "type": "oauth2",
+                            "scopes": [
+                                "openid",
+                                "email",
+                                "profile"
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_pricing_estimate",
+                "title": "Pricing Estimate",
+                "description": "Quick directional estimate for one or more CPT codes. Prefers observed national market pricing derived from hospital price-transparency data, but falls back to a broad CPT-range heuristic when observed pricing is missing. Use this for a fast ballpark total. For source-grounded market benchmarks or hospital-specific source-labeled prices, prefer get_market_pricing or get_hospital_pricing.",
+                "inputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "procedure_codes": {
+                            "minItems": 1,
+                            "maxItems": 10,
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "CPT procedure codes to price (e.g. [\"99213\", \"85025\"])"
+                        },
+                        "zip_code": {
+                            "description": "ZIP code for regional pricing (defaults to national average)",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "procedure_codes"
+                    ]
+                },
+                "annotations": {
+                    "readOnlyHint": true,
+                    "destructiveHint": false,
+                    "idempotentHint": true,
+                    "openWorldHint": false
+                },
+                "execution": {
+                    "taskSupport": "forbidden"
+                },
+                "outputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "estimatedCost": {
+                            "type": "number"
+                        },
+                        "procedures": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "code": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "estimatedCost": {
+                                        "type": "number"
+                                    },
+                                    "priceRange": {
+                                        "type": "object",
+                                        "properties": {
+                                            "min": {
+                                                "type": "number"
+                                            },
+                                            "max": {
+                                                "type": "number"
+                                            }
+                                        },
+                                        "required": [
+                                            "min",
+                                            "max"
+                                        ],
+                                        "additionalProperties": false
+                                    },
+                                    "pricingMethod": {
+                                        "type": "string",
+                                        "enum": [
+                                            "observed_market_median",
+                                            "heuristic_cpt_range"
+                                        ]
+                                    },
+                                    "data_points": {
+                                        "anyOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "null"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "code",
+                                    "description",
+                                    "estimatedCost",
+                                    "priceRange",
+                                    "pricingMethod",
+                                    "data_points"
+                                ],
+                                "additionalProperties": false
+                            }
+                        },
+                        "zipCode": {
+                            "type": "string"
+                        },
+                        "containsHeuristicEstimates": {
+                            "type": "boolean"
+                        },
+                        "provenance": {
+                            "type": "object",
+                            "properties": {
+                                "authority": {
+                                    "type": "string",
+                                    "enum": [
+                                        "authoritative",
+                                        "advisory",
+                                        "estimate"
+                                    ]
+                                },
+                                "basis": {
+                                    "type": "string"
+                                },
+                                "source_scope": {
+                                    "type": "string"
+                                },
+                                "source_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                },
+                                "methodology_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                }
+                            },
+                            "required": [
+                                "authority",
+                                "basis",
+                                "methodology_url"
+                            ],
+                            "additionalProperties": false
+                        },
+                        "disclaimer": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "estimatedCost",
+                        "procedures",
+                        "zipCode",
+                        "containsHeuristicEstimates",
+                        "provenance",
+                        "disclaimer"
+                    ],
+                    "additionalProperties": false
+                },
+                "securitySchemes": [
+                    {
+                        "type": "oauth2",
+                        "scopes": [
+                            "openid",
+                            "email",
+                            "profile"
+                        ]
+                    }
+                ],
+                "_meta": {
+                    "securitySchemes": [
+                        {
+                            "type": "oauth2",
+                            "scopes": [
+                                "openid",
+                                "email",
+                                "profile"
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_market_pricing",
+                "title": "Market Pricing",
+                "description": "Preferred benchmark pricing tool. Returns market cash/self-pay and insurance-negotiated price summaries for CPT codes, aggregated from Loa's hospital price-transparency dataset. Use this when the user wants source-grounded regional or national market pricing rather than a single-hospital rate.",
+                "inputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "cpt_codes": {
+                            "minItems": 1,
+                            "maxItems": 10,
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "CPT codes to look up (e.g. [\"99213\", \"93000\"])"
+                        },
+                        "state": {
+                            "description": "State for regional pricing (e.g. \"CA\", \"New York\"). Unknown states return McpToolInvalidInput. Valid states with no regional data fall back to national averages.",
+                            "type": "string"
+                        },
+                        "zip_code": {
+                            "description": "ZIP code (used with state for location context)",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "cpt_codes"
+                    ]
+                },
+                "annotations": {
+                    "readOnlyHint": true,
+                    "destructiveHint": false,
+                    "idempotentHint": true,
+                    "openWorldHint": false
+                },
+                "execution": {
+                    "taskSupport": "forbidden"
+                },
+                "outputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "pricing": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "cpt_code": {
+                                        "type": "string"
+                                    },
+                                    "cash_price": {
+                                        "anyOf": [
+                                            {
+                                                "type": "object",
+                                                "properties": {
+                                                    "median": {
+                                                        "type": "number"
+                                                    },
+                                                    "average": {
+                                                        "type": "number"
+                                                    },
+                                                    "min": {
+                                                        "type": "number"
+                                                    },
+                                                    "max": {
+                                                        "type": "number"
+                                                    },
+                                                    "data_points": {
+                                                        "type": "number"
+                                                    },
+                                                    "source": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "median",
+                                                    "average",
+                                                    "min",
+                                                    "max",
+                                                    "data_points",
+                                                    "source"
+                                                ],
+                                                "additionalProperties": false
+                                            },
+                                            {
+                                                "type": "null"
+                                            }
+                                        ]
+                                    },
+                                    "insurance_price": {
+                                        "anyOf": [
+                                            {
+                                                "type": "object",
+                                                "properties": {
+                                                    "median": {
+                                                        "type": "number"
+                                                    },
+                                                    "average": {
+                                                        "type": "number"
+                                                    },
+                                                    "min": {
+                                                        "type": "number"
+                                                    },
+                                                    "max": {
+                                                        "type": "number"
+                                                    },
+                                                    "data_points": {
+                                                        "type": "number"
+                                                    },
+                                                    "source": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "median",
+                                                    "average",
+                                                    "min",
+                                                    "max",
+                                                    "data_points",
+                                                    "source"
+                                                ],
+                                                "additionalProperties": false
+                                            },
+                                            {
+                                                "type": "null"
+                                            }
+                                        ]
+                                    },
+                                    "confidence": {
+                                        "type": "string",
+                                        "enum": [
+                                            "high",
+                                            "medium",
+                                            "low"
+                                        ]
+                                    },
+                                    "cash_data_points": {
+                                        "type": "number"
+                                    },
+                                    "insurance_data_points": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "cpt_code",
+                                    "cash_price",
+                                    "insurance_price",
+                                    "confidence",
+                                    "cash_data_points",
+                                    "insurance_data_points"
+                                ],
+                                "additionalProperties": false
+                            }
+                        },
+                        "state": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
+                        },
+                        "provenance": {
+                            "type": "object",
+                            "properties": {
+                                "authority": {
+                                    "type": "string",
+                                    "enum": [
+                                        "authoritative",
+                                        "advisory",
+                                        "estimate"
+                                    ]
+                                },
+                                "basis": {
+                                    "type": "string"
+                                },
+                                "source_scope": {
+                                    "type": "string"
+                                },
+                                "source_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                },
+                                "methodology_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                }
+                            },
+                            "required": [
+                                "authority",
+                                "basis",
+                                "methodology_url"
+                            ],
+                            "additionalProperties": false
+                        }
+                    },
+                    "required": [
+                        "pricing",
+                        "state",
+                        "provenance"
+                    ],
+                    "additionalProperties": false
+                },
+                "securitySchemes": [
+                    {
+                        "type": "oauth2",
+                        "scopes": [
+                            "openid",
+                            "email",
+                            "profile"
+                        ]
+                    }
+                ],
+                "_meta": {
+                    "securitySchemes": [
+                        {
+                            "type": "oauth2",
+                            "scopes": [
+                                "openid",
+                                "email",
+                                "profile"
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "search_hospitals",
+                "title": "Hospital Search",
+                "description": "Search Loa's hospital directory by name or location and return hospital IDs plus address details. Use the returned hospital_ids with get_hospital_pricing to fetch source-labeled Published MRF and reviewed overlay prices.",
+                "inputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "state": {
+                            "description": "Two-letter state code or full state name, e.g. \"CA\" or \"New York\".",
+                            "type": "string"
+                        },
+                        "city": {
+                            "description": "City name",
+                            "type": "string"
+                        },
+                        "zip_code": {
+                            "description": "ZIP code",
+                            "type": "string"
+                        },
+                        "name": {
+                            "description": "Hospital name to search for",
+                            "type": "string"
+                        },
+                        "limit": {
+                            "description": "Max results (default 20)",
+                            "default": 20,
+                            "type": "number",
+                            "minimum": 1,
+                            "maximum": 50
+                        }
+                    }
+                },
+                "annotations": {
+                    "readOnlyHint": true,
+                    "destructiveHint": false,
+                    "idempotentHint": true,
+                    "openWorldHint": false
+                },
+                "execution": {
+                    "taskSupport": "forbidden"
+                },
+                "outputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "query": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "city": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "zip_code": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "name": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "state",
+                                "city",
+                                "zip_code",
+                                "name"
+                            ],
+                            "additionalProperties": false
+                        },
+                        "hospitals": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "hospital_id": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "state": {
+                                        "type": "string"
+                                    },
+                                    "zip_code": {
+                                        "type": "string"
+                                    },
+                                    "phone": {
+                                        "type": "string"
+                                    },
+                                    "website": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "hospital_id",
+                                    "name",
+                                    "address",
+                                    "city",
+                                    "state",
+                                    "zip_code",
+                                    "phone",
+                                    "website"
+                                ],
+                                "additionalProperties": false
+                            }
+                        },
+                        "total": {
+                            "type": "number"
+                        },
+                        "provenance": {
+                            "type": "object",
+                            "properties": {
+                                "authority": {
+                                    "type": "string",
+                                    "enum": [
+                                        "authoritative",
+                                        "advisory",
+                                        "estimate"
+                                    ]
+                                },
+                                "basis": {
+                                    "type": "string"
+                                },
+                                "source_scope": {
+                                    "type": "string"
+                                },
+                                "source_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                },
+                                "methodology_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                }
+                            },
+                            "required": [
+                                "authority",
+                                "basis",
+                                "methodology_url"
+                            ],
+                            "additionalProperties": false
+                        }
+                    },
+                    "required": [
+                        "query",
+                        "hospitals",
+                        "total",
+                        "provenance"
+                    ],
+                    "additionalProperties": false
+                },
+                "securitySchemes": [
+                    {
+                        "type": "oauth2",
+                        "scopes": [
+                            "openid",
+                            "email",
+                            "profile"
+                        ]
+                    }
+                ],
+                "_meta": {
+                    "securitySchemes": [
+                        {
+                            "type": "oauth2",
+                            "scopes": [
+                                "openid",
+                                "email",
+                                "profile"
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_hospital_pricing",
+                "title": "Hospital Pricing",
+                "description": "Hospital-specific pricing tool for source-labeled Loa runtime data. Returns source-labeled Published MRF prices and Loa Verified Provider Price overlays for CPT codes, including cash/self-pay and payer-negotiated rates when available. Use this when comparing named hospitals or checking a quoted hospital price against available source rows.",
+                "inputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "hospital_ids": {
+                            "minItems": 1,
+                            "maxItems": 10,
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Hospital IDs from search_hospitals results"
+                        },
+                        "cpt_codes": {
+                            "minItems": 1,
+                            "maxItems": 10,
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "CPT procedure codes to look up pricing for"
+                        }
+                    },
+                    "required": [
+                        "hospital_ids",
+                        "cpt_codes"
+                    ]
+                },
+                "annotations": {
+                    "readOnlyHint": true,
+                    "destructiveHint": false,
+                    "idempotentHint": true,
+                    "openWorldHint": false
+                },
+                "execution": {
+                    "taskSupport": "forbidden"
+                },
+                "outputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "pricing": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "hospital_id": {
+                                        "type": "string"
+                                    },
+                                    "hospital_name": {
+                                        "type": "string"
+                                    },
+                                    "hospital_location": {
+                                        "type": "string"
+                                    },
+                                    "cpt_code": {
+                                        "type": "string"
+                                    },
+                                    "cpt_description": {
+                                        "type": "string"
+                                    },
+                                    "cash_price": {
+                                        "anyOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "null"
+                                            }
+                                        ]
+                                    },
+                                    "cash_source_labels": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "insurance_prices": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "payer": {
+                                                    "type": "string"
+                                                },
+                                                "plan": {
+                                                    "type": "string"
+                                                },
+                                                "price": {
+                                                    "type": "number"
+                                                },
+                                                "source_label": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "payer",
+                                                "plan",
+                                                "price",
+                                                "source_label"
+                                            ],
+                                            "additionalProperties": false
+                                        }
+                                    },
+                                    "source_labels": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "record_count": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "hospital_id",
+                                    "hospital_name",
+                                    "hospital_location",
+                                    "cpt_code",
+                                    "cpt_description",
+                                    "cash_price",
+                                    "cash_source_labels",
+                                    "insurance_prices",
+                                    "source_labels",
+                                    "record_count"
+                                ],
+                                "additionalProperties": false
+                            }
+                        },
+                        "total": {
+                            "type": "number"
+                        },
+                        "hospitals_found": {
+                            "type": "number"
+                        },
+                        "services_found": {
+                            "type": "number"
+                        },
+                        "provenance": {
+                            "type": "object",
+                            "properties": {
+                                "authority": {
+                                    "type": "string",
+                                    "enum": [
+                                        "authoritative",
+                                        "advisory",
+                                        "estimate"
+                                    ]
+                                },
+                                "basis": {
+                                    "type": "string"
+                                },
+                                "source_scope": {
+                                    "type": "string"
+                                },
+                                "source_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                },
+                                "methodology_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                }
+                            },
+                            "required": [
+                                "authority",
+                                "basis",
+                                "methodology_url"
+                            ],
+                            "additionalProperties": false
+                        }
+                    },
+                    "required": [
+                        "pricing",
+                        "total",
+                        "hospitals_found",
+                        "services_found",
+                        "provenance"
+                    ],
+                    "additionalProperties": false
+                },
+                "securitySchemes": [
+                    {
+                        "type": "oauth2",
+                        "scopes": [
+                            "openid",
+                            "email",
+                            "profile"
+                        ]
+                    }
+                ],
+                "_meta": {
+                    "securitySchemes": [
+                        {
+                            "type": "oauth2",
+                            "scopes": [
+                                "openid",
+                                "email",
+                                "profile"
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "search_entities",
+                "title": "Entity Search",
+                "description": "Search Loa runtime hospital and provider entity pages by name or state. Use this before get_entity_prices when the user names a hospital or provider but does not know the exact Loa slug.",
+                "inputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "query": {
+                            "description": "Hospital or provider name to search for.",
+                            "type": "string"
+                        },
+                        "entity_type": {
+                            "description": "Optional filter for hospital or provider entities.",
+                            "type": "string",
+                            "enum": [
+                                "hospital",
+                                "provider"
+                            ]
+                        },
+                        "state": {
+                            "description": "Two-letter state code or full state name, e.g. CA or New York.",
+                            "type": "string"
+                        },
+                        "limit": {
+                            "description": "Maximum number of results, default 20, max 50.",
+                            "default": 20,
+                            "type": "number",
+                            "minimum": 1,
+                            "maximum": 50
+                        }
+                    }
+                },
+                "annotations": {
+                    "readOnlyHint": true,
+                    "destructiveHint": false,
+                    "idempotentHint": true,
+                    "openWorldHint": false
+                },
+                "execution": {
+                    "taskSupport": "forbidden"
+                },
+                "outputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "query": {
+                            "type": "object",
+                            "properties": {
+                                "query": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "entity_type": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "state": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "query",
+                                "entity_type",
+                                "state"
+                            ],
+                            "additionalProperties": false
+                        },
+                        "total": {
+                            "type": "number"
+                        },
+                        "entities": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "entity_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "hospital",
+                                            "provider"
+                                        ]
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "canonical_name": {
+                                        "type": "string"
+                                    },
+                                    "display_name": {
+                                        "anyOf": [
+                                            {
+                                                "type": "string"
+                                            },
+                                            {
+                                                "type": "null"
+                                            }
+                                        ]
+                                    },
+                                    "city": {
+                                        "anyOf": [
+                                            {
+                                                "type": "string"
+                                            },
+                                            {
+                                                "type": "null"
+                                            }
+                                        ]
+                                    },
+                                    "state": {
+                                        "anyOf": [
+                                            {
+                                                "type": "string"
+                                            },
+                                            {
+                                                "type": "null"
+                                            }
+                                        ]
+                                    },
+                                    "zip_code": {
+                                        "anyOf": [
+                                            {
+                                                "type": "string"
+                                            },
+                                            {
+                                                "type": "null"
+                                            }
+                                        ]
+                                    },
+                                    "data_quality_score": {
+                                        "anyOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "null"
+                                            }
+                                        ]
+                                    },
+                                    "updated_at": {
+                                        "type": "string",
+                                        "description": "ISO 8601 timestamp"
+                                    }
+                                },
+                                "required": [
+                                    "id",
+                                    "entity_type",
+                                    "slug",
+                                    "canonical_name",
+                                    "display_name",
+                                    "city",
+                                    "state",
+                                    "zip_code",
+                                    "data_quality_score",
+                                    "updated_at"
+                                ],
+                                "additionalProperties": false
+                            }
+                        },
+                        "provenance": {
+                            "type": "object",
+                            "properties": {
+                                "authority": {
+                                    "type": "string",
+                                    "enum": [
+                                        "authoritative",
+                                        "advisory",
+                                        "estimate"
+                                    ]
+                                },
+                                "basis": {
+                                    "type": "string"
+                                },
+                                "source_scope": {
+                                    "type": "string"
+                                },
+                                "source_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                },
+                                "methodology_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                }
+                            },
+                            "required": [
+                                "authority",
+                                "basis",
+                                "methodology_url"
+                            ],
+                            "additionalProperties": false
+                        }
+                    },
+                    "required": [
+                        "query",
+                        "total",
+                        "entities",
+                        "provenance"
+                    ],
+                    "additionalProperties": false
+                },
+                "securitySchemes": [
+                    {
+                        "type": "oauth2",
+                        "scopes": [
+                            "openid",
+                            "email",
+                            "profile"
+                        ]
+                    }
+                ],
+                "_meta": {
+                    "securitySchemes": [
+                        {
+                            "type": "oauth2",
+                            "scopes": [
+                                "openid",
+                                "email",
+                                "profile"
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_entity_prices",
+                "title": "Entity Prices",
+                "description": "Return source-labeled prices for a Loa hospital or provider entity slug using the shared resolver. Use search_entities first if the slug is unknown. Results include provenance and explicit unavailable rows for requested CPT codes with no current price.",
+                "inputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "slug": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "Exact Loa entity slug from search_entities or a Loa SEO page."
+                        },
+                        "cpt_codes": {
+                            "description": "Optional CPT codes to filter. If omitted, returns current indexed prices up to the limit.",
+                            "minItems": 1,
+                            "maxItems": 25,
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "limit": {
+                            "description": "Maximum number of prices, default 50, max 100.",
+                            "default": 50,
+                            "type": "number",
+                            "minimum": 1,
+                            "maximum": 100
+                        }
+                    },
+                    "required": [
+                        "slug"
+                    ]
+                },
+                "annotations": {
+                    "readOnlyHint": true,
+                    "destructiveHint": false,
+                    "idempotentHint": true,
+                    "openWorldHint": false
+                },
+                "execution": {
+                    "taskSupport": "forbidden"
+                },
+                "outputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "entity": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "entityType": {
+                                    "type": "string",
+                                    "enum": [
+                                        "hospital",
+                                        "provider"
+                                    ]
+                                },
+                                "slug": {
+                                    "type": "string"
+                                },
+                                "canonicalName": {
+                                    "type": "string"
+                                },
+                                "city": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "state": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "entityType",
+                                "slug",
+                                "canonicalName",
+                                "city",
+                                "state"
+                            ],
+                            "additionalProperties": false
+                        },
+                        "prices": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "entityPageId": {
+                                        "type": "string"
+                                    },
+                                    "cptCode": {
+                                        "type": "string"
+                                    },
+                                    "codeType": {
+                                        "type": "string"
+                                    },
+                                    "procedureDescription": {
+                                        "type": "string"
+                                    },
+                                    "serviceCategory": {
+                                        "type": "string"
+                                    },
+                                    "priceCents": {
+                                        "anyOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "null"
+                                            }
+                                        ]
+                                    },
+                                    "priceKind": {
+                                        "type": "string"
+                                    },
+                                    "label": {
+                                        "type": "string"
+                                    },
+                                    "payerName": {
+                                        "type": "string"
+                                    },
+                                    "planName": {
+                                        "type": "string"
+                                    },
+                                    "setting": {
+                                        "type": "string"
+                                    },
+                                    "billingClass": {
+                                        "type": "string"
+                                    },
+                                    "component": {
+                                        "type": "string",
+                                        "enum": [
+                                            "global",
+                                            "professional",
+                                            "facility",
+                                            "unknown"
+                                        ]
+                                    },
+                                    "sourceRowId": {
+                                        "type": "string"
+                                    },
+                                    "basePriceIndexId": {
+                                        "type": "string"
+                                    },
+                                    "overlayRelationship": {
+                                        "type": "string"
+                                    },
+                                    "provenance": {
+                                        "type": "object",
+                                        "properties": {
+                                            "authority": {
+                                                "type": "string"
+                                            },
+                                            "sourceType": {
+                                                "type": "string"
+                                            },
+                                            "sourceLabel": {
+                                                "type": "string"
+                                            },
+                                            "sourceUpdatedAt": {
+                                                "type": "string"
+                                            },
+                                            "confidence": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "high",
+                                                    "medium",
+                                                    "low"
+                                                ]
+                                            },
+                                            "caveats": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "authority",
+                                            "sourceType",
+                                            "sourceLabel",
+                                            "confidence",
+                                            "caveats"
+                                        ],
+                                        "additionalProperties": false
+                                    },
+                                    "comparableMrfPrice": {
+                                        "type": "object",
+                                        "properties": {
+                                            "entityPageId": {
+                                                "type": "string"
+                                            },
+                                            "cptCode": {
+                                                "type": "string"
+                                            },
+                                            "codeType": {
+                                                "type": "string"
+                                            },
+                                            "procedureDescription": {
+                                                "type": "string"
+                                            },
+                                            "serviceCategory": {
+                                                "type": "string"
+                                            },
+                                            "priceCents": {
+                                                "anyOf": [
+                                                    {
+                                                        "type": "number"
+                                                    },
+                                                    {
+                                                        "type": "null"
+                                                    }
+                                                ]
+                                            },
+                                            "priceKind": {
+                                                "type": "string"
+                                            },
+                                            "label": {
+                                                "type": "string"
+                                            },
+                                            "payerName": {
+                                                "type": "string"
+                                            },
+                                            "planName": {
+                                                "type": "string"
+                                            },
+                                            "setting": {
+                                                "type": "string"
+                                            },
+                                            "billingClass": {
+                                                "type": "string"
+                                            },
+                                            "component": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "global",
+                                                    "professional",
+                                                    "facility",
+                                                    "unknown"
+                                                ]
+                                            },
+                                            "sourceRowId": {
+                                                "type": "string"
+                                            },
+                                            "basePriceIndexId": {
+                                                "type": "string"
+                                            },
+                                            "overlayRelationship": {
+                                                "type": "string"
+                                            },
+                                            "provenance": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "authority": {
+                                                        "type": "string"
+                                                    },
+                                                    "sourceType": {
+                                                        "type": "string"
+                                                    },
+                                                    "sourceLabel": {
+                                                        "type": "string"
+                                                    },
+                                                    "sourceUpdatedAt": {
+                                                        "type": "string"
+                                                    },
+                                                    "confidence": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "high",
+                                                            "medium",
+                                                            "low"
+                                                        ]
+                                                    },
+                                                    "caveats": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                },
+                                                "required": [
+                                                    "authority",
+                                                    "sourceType",
+                                                    "sourceLabel",
+                                                    "confidence",
+                                                    "caveats"
+                                                ],
+                                                "additionalProperties": false
+                                            }
+                                        },
+                                        "required": [
+                                            "entityPageId",
+                                            "cptCode",
+                                            "codeType",
+                                            "priceCents",
+                                            "priceKind",
+                                            "label",
+                                            "provenance"
+                                        ],
+                                        "additionalProperties": false
+                                    }
+                                },
+                                "required": [
+                                    "entityPageId",
+                                    "cptCode",
+                                    "codeType",
+                                    "priceCents",
+                                    "priceKind",
+                                    "label",
+                                    "provenance"
+                                ],
+                                "additionalProperties": false
+                            }
+                        },
+                        "total": {
+                            "type": "number"
+                        },
+                        "provenance": {
+                            "type": "object",
+                            "properties": {
+                                "authority": {
+                                    "type": "string",
+                                    "enum": [
+                                        "authoritative",
+                                        "advisory",
+                                        "estimate"
+                                    ]
+                                },
+                                "basis": {
+                                    "type": "string"
+                                },
+                                "source_scope": {
+                                    "type": "string"
+                                },
+                                "source_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                },
+                                "methodology_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                }
+                            },
+                            "required": [
+                                "authority",
+                                "basis",
+                                "methodology_url"
+                            ],
+                            "additionalProperties": false
+                        }
+                    },
+                    "required": [
+                        "entity",
+                        "prices",
+                        "total",
+                        "provenance"
+                    ],
+                    "additionalProperties": false
+                },
+                "securitySchemes": [
+                    {
+                        "type": "oauth2",
+                        "scopes": [
+                            "openid",
+                            "email",
+                            "profile"
+                        ]
+                    }
+                ],
+                "_meta": {
+                    "securitySchemes": [
+                        {
+                            "type": "oauth2",
+                            "scopes": [
+                                "openid",
+                                "email",
+                                "profile"
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_entity_profile",
+                "title": "Entity Profile",
+                "description": "Return one Loa hospital or provider entity profile by exact slug or entity_pages.id. Includes profile-field provenance so agents can distinguish source-file fields from Loa-reviewed overrides.",
+                "inputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "slug_or_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "Exact Loa entity slug or entity_pages.id from search_entities."
+                        },
+                        "entity_type": {
+                            "description": "Optional disambiguation when slug_or_id is a slug.",
+                            "type": "string",
+                            "enum": [
+                                "hospital",
+                                "provider"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "slug_or_id"
+                    ]
+                },
+                "annotations": {
+                    "readOnlyHint": true,
+                    "destructiveHint": false,
+                    "idempotentHint": true,
+                    "openWorldHint": false
+                },
+                "execution": {
+                    "taskSupport": "forbidden"
+                },
+                "outputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "entity": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "entityType": {
+                                    "type": "string",
+                                    "enum": [
+                                        "hospital",
+                                        "provider"
+                                    ]
+                                },
+                                "slug": {
+                                    "type": "string"
+                                },
+                                "canonicalName": {
+                                    "type": "string"
+                                },
+                                "displayName": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "city": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "state": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "zipCode": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "address": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "phone": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "website": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "npi": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "ccn": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "hpfId": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "dataQualityScore": {
+                                    "anyOf": [
+                                        {
+                                            "type": "number"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "updatedAt": {
+                                    "type": "string",
+                                    "description": "ISO 8601 timestamp"
+                                },
+                                "metadata": {
+                                    "type": "object",
+                                    "propertyNames": {
+                                        "type": "string"
+                                    },
+                                    "additionalProperties": {}
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "entityType",
+                                "slug",
+                                "canonicalName",
+                                "displayName",
+                                "city",
+                                "state",
+                                "zipCode",
+                                "address",
+                                "phone",
+                                "website",
+                                "npi",
+                                "ccn",
+                                "hpfId",
+                                "dataQualityScore",
+                                "updatedAt",
+                                "metadata"
+                            ],
+                            "additionalProperties": false
+                        },
+                        "profile_provenance": {
+                            "type": "object",
+                            "properties": {
+                                "authority": {
+                                    "type": "string"
+                                },
+                                "source_type": {
+                                    "type": "string"
+                                },
+                                "source_label": {
+                                    "type": "string"
+                                },
+                                "confidence": {
+                                    "type": "string"
+                                },
+                                "loa_reviewed_at": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "authority",
+                                "source_type",
+                                "source_label",
+                                "confidence"
+                            ],
+                            "additionalProperties": false
+                        },
+                        "profile_field_provenance": {
+                            "type": "object",
+                            "propertyNames": {
+                                "type": "string"
+                            },
+                            "additionalProperties": {
+                                "type": "object",
+                                "properties": {
+                                    "authority": {
+                                        "type": "string"
+                                    },
+                                    "source_type": {
+                                        "type": "string"
+                                    },
+                                    "source_label": {
+                                        "type": "string"
+                                    },
+                                    "confidence": {
+                                        "type": "string"
+                                    },
+                                    "loa_reviewed_at": {
+                                        "anyOf": [
+                                            {
+                                                "type": "string"
+                                            },
+                                            {
+                                                "type": "null"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "authority",
+                                    "source_type",
+                                    "source_label",
+                                    "confidence"
+                                ],
+                                "additionalProperties": false
+                            }
+                        },
+                        "provenance": {
+                            "type": "object",
+                            "properties": {
+                                "authority": {
+                                    "type": "string",
+                                    "enum": [
+                                        "authoritative",
+                                        "advisory",
+                                        "estimate"
+                                    ]
+                                },
+                                "basis": {
+                                    "type": "string"
+                                },
+                                "source_scope": {
+                                    "type": "string"
+                                },
+                                "source_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                },
+                                "methodology_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                }
+                            },
+                            "required": [
+                                "authority",
+                                "basis",
+                                "methodology_url"
+                            ],
+                            "additionalProperties": false
+                        }
+                    },
+                    "required": [
+                        "entity",
+                        "profile_provenance",
+                        "profile_field_provenance",
+                        "provenance"
+                    ],
+                    "additionalProperties": false
+                },
+                "securitySchemes": [
+                    {
+                        "type": "oauth2",
+                        "scopes": [
+                            "openid",
+                            "email",
+                            "profile"
+                        ]
+                    }
+                ],
+                "_meta": {
+                    "securitySchemes": [
+                        {
+                            "type": "oauth2",
+                            "scopes": [
+                                "openid",
+                                "email",
+                                "profile"
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "explain_price_sources",
+                "title": "Explain Price Sources",
+                "description": "Explain the source labels, provenance, confidence, and caveats behind Loa prices for one hospital or provider entity. Use this when an agent needs to tell a user why prices are MRF-published, Loa-reviewed, estimated, or unavailable.",
+                "inputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "slug": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "Exact Loa entity slug from search_entities."
+                        },
+                        "cpt_codes": {
+                            "description": "Optional CPT codes to explain. If omitted, explains current indexed prices.",
+                            "minItems": 1,
+                            "maxItems": 25,
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "limit": {
+                            "description": "Maximum number of prices to inspect, default 50, max 100.",
+                            "default": 50,
+                            "type": "number",
+                            "minimum": 1,
+                            "maximum": 100
+                        }
+                    },
+                    "required": [
+                        "slug"
+                    ]
+                },
+                "annotations": {
+                    "readOnlyHint": true,
+                    "destructiveHint": false,
+                    "idempotentHint": true,
+                    "openWorldHint": false
+                },
+                "execution": {
+                    "taskSupport": "forbidden"
+                },
+                "outputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "entity": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "entityType": {
+                                    "type": "string",
+                                    "enum": [
+                                        "hospital",
+                                        "provider"
+                                    ]
+                                },
+                                "slug": {
+                                    "type": "string"
+                                },
+                                "canonicalName": {
+                                    "type": "string"
+                                },
+                                "city": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "state": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "entityType",
+                                "slug",
+                                "canonicalName",
+                                "city",
+                                "state"
+                            ],
+                            "additionalProperties": false
+                        },
+                        "cpt_codes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "price_count": {
+                            "type": "number"
+                        },
+                        "comparable_mrf_price_count": {
+                            "type": "number"
+                        },
+                        "source_summary": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "label": {
+                                        "type": "string"
+                                    },
+                                    "authority": {
+                                        "type": "string"
+                                    },
+                                    "sourceType": {
+                                        "type": "string"
+                                    },
+                                    "confidence": {
+                                        "type": "string"
+                                    },
+                                    "count": {
+                                        "type": "number"
+                                    },
+                                    "comparableMrfPriceCount": {
+                                        "type": "number"
+                                    },
+                                    "caveats": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "label",
+                                    "authority",
+                                    "sourceType",
+                                    "confidence",
+                                    "count",
+                                    "comparableMrfPriceCount",
+                                    "caveats"
+                                ],
+                                "additionalProperties": false
+                            }
+                        },
+                        "caveats": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "provenance": {
+                            "type": "object",
+                            "properties": {
+                                "authority": {
+                                    "type": "string",
+                                    "enum": [
+                                        "authoritative",
+                                        "advisory",
+                                        "estimate"
+                                    ]
+                                },
+                                "basis": {
+                                    "type": "string"
+                                },
+                                "source_scope": {
+                                    "type": "string"
+                                },
+                                "source_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                },
+                                "methodology_url": {
+                                    "type": "string",
+                                    "format": "uri"
+                                }
+                            },
+                            "required": [
+                                "authority",
+                                "basis",
+                                "methodology_url"
+                            ],
+                            "additionalProperties": false
+                        }
+                    },
+                    "required": [
+                        "entity",
+                        "cpt_codes",
+                        "price_count",
+                        "comparable_mrf_price_count",
+                        "source_summary",
+                        "caveats",
+                        "provenance"
+                    ],
+                    "additionalProperties": false
+                },
+                "securitySchemes": [
+                    {
+                        "type": "oauth2",
+                        "scopes": [
+                            "openid",
+                            "email",
+                            "profile"
+                        ]
+                    }
+                ],
+                "_meta": {
+                    "securitySchemes": [
+                        {
+                            "type": "oauth2",
+                            "scopes": [
+                                "openid",
+                                "email",
+                                "profile"
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "submit_entity_update_request",
+                "title": "Submit Entity Update Request",
+                "description": "Submit a profile, listing, or price correction for Loa review without requiring a provider portal. This is the only mutating provider/entity tool. It requires OAuth, captures submitter and source evidence, records linked-provider status when available, and never changes public data until Loa approves the request.",
+                "inputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "entity_page_id": {
+                            "description": "Loa entity_pages.id for the provider or hospital.",
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                        },
+                        "entity_slug": {
+                            "description": "Exact Loa entity slug if entity_page_id is not available.",
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 160
+                        },
+                        "entity_type": {
+                            "description": "Entity kind for the requested update; use unknown only when it cannot be determined.",
+                            "default": "unknown",
+                            "type": "string",
+                            "enum": [
+                                "hospital",
+                                "provider",
+                                "unknown"
+                            ]
+                        },
+                        "submitter_email": {
+                            "type": "string",
+                            "format": "email",
+                            "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+                            "description": "Work email for the submitting representative."
+                        },
+                        "submitter_name": {
+                            "description": "Name of the person submitting the request.",
+                            "type": "string",
+                            "maxLength": 200
+                        },
+                        "submitter_organization": {
+                            "description": "Provider, hospital, or agent organization represented by the submitter.",
+                            "type": "string",
+                            "maxLength": 300
+                        },
+                        "submitter_role": {
+                            "description": "Submitter role, such as billing manager or authorized agent.",
+                            "type": "string",
+                            "maxLength": 200
+                        },
+                        "submitter_phone": {
+                            "description": "Optional callback phone number for reviewer follow-up.",
+                            "type": "string",
+                            "maxLength": 50
+                        },
+                        "source_urls": {
+                            "description": "Optional public URLs reviewers can use to verify the submitted change.",
+                            "default": [],
+                            "maxItems": 10,
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "format": "uri"
+                            }
+                        },
+                        "source_notes": {
+                            "description": "Short verification notes, source context, or callback instructions.",
+                            "type": "string",
+                            "maxLength": 2000
+                        },
+                        "attestation": {
+                            "description": "How the submitter is connected to the submitted evidence.",
+                            "type": "string",
+                            "enum": [
+                                "provider_representative",
+                                "authorized_agent",
+                                "public_source",
+                                "other"
+                            ]
+                        },
+                        "request_type": {
+                            "type": "string",
+                            "enum": [
+                                "price_update",
+                                "profile_correction",
+                                "new_listing",
+                                "remove_listing",
+                                "other"
+                            ],
+                            "description": "Type of reviewed change being requested."
+                        },
+                        "proposed_changes": {
+                            "description": "Structured profile or listing fields proposed for Loa review.",
+                            "default": {},
+                            "type": "object",
+                            "propertyNames": {
+                                "type": "string"
+                            },
+                            "additionalProperties": {}
+                        },
+                        "uploaded_file_url": {
+                            "description": "Optional public URL for an uploaded evidence file.",
+                            "type": "string",
+                            "format": "uri"
+                        },
+                        "idempotency_key": {
+                            "description": "Optional stable retry key. Loa derives one from the payload if omitted.",
+                            "type": "string",
+                            "minLength": 8,
+                            "maxLength": 200
+                        },
+                        "price_items": {
+                            "description": "Optional structured price rows proposed for Loa review.",
+                            "default": [],
+                            "maxItems": 100,
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "cpt_code": {
+                                        "type": "string",
+                                        "minLength": 3,
+                                        "maxLength": 20
+                                    },
+                                    "code_type": {
+                                        "default": "CPT",
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 20
+                                    },
+                                    "service_name": {
+                                        "type": "string",
+                                        "maxLength": 300
+                                    },
+                                    "price_kind": {
+                                        "default": "cash",
+                                        "type": "string",
+                                        "enum": [
+                                            "cash",
+                                            "discounted_cash",
+                                            "package_cash",
+                                            "payer_negotiated"
+                                        ]
+                                    },
+                                    "proposed_price_cents": {
+                                        "type": "integer",
+                                        "exclusiveMinimum": 0,
+                                        "maximum": 9007199254740991
+                                    },
+                                    "payer_name": {
+                                        "type": "string",
+                                        "maxLength": 300
+                                    },
+                                    "plan_name": {
+                                        "type": "string",
+                                        "maxLength": 300
+                                    },
+                                    "setting": {
+                                        "type": "string",
+                                        "maxLength": 100
+                                    },
+                                    "billing_class": {
+                                        "type": "string",
+                                        "maxLength": 100
+                                    },
+                                    "component": {
+                                        "default": "unknown",
+                                        "type": "string",
+                                        "enum": [
+                                            "global",
+                                            "professional",
+                                            "facility",
+                                            "unknown"
+                                        ]
+                                    },
+                                    "included_services": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "maxLength": 300
+                                        }
+                                    },
+                                    "exclusions": {
+                                        "type": "string",
+                                        "maxLength": 1000
+                                    },
+                                    "price_notes": {
+                                        "type": "string",
+                                        "maxLength": 1000
+                                    }
+                                },
+                                "required": [
+                                    "cpt_code"
+                                ]
+                            }
+                        }
+                    },
+                    "required": [
+                        "submitter_email",
+                        "request_type"
+                    ]
+                },
+                "annotations": {
+                    "readOnlyHint": false,
+                    "destructiveHint": false,
+                    "idempotentHint": true,
+                    "openWorldHint": false
+                },
+                "execution": {
+                    "taskSupport": "forbidden"
+                },
+                "outputSchema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "requestId": {
+                            "type": "string"
+                        },
+                        "updateRequestId": {
+                            "type": "string"
+                        },
+                        "status": {
+                            "type": "string"
+                        },
+                        "entityPageId": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
+                        },
+                        "reusedExisting": {
+                            "type": "boolean"
+                        }
+                    },
+                    "required": [
+                        "requestId",
+                        "updateRequestId",
+                        "status",
+                        "entityPageId",
+                        "reusedExisting"
+                    ],
+                    "additionalProperties": false
+                },
+                "securitySchemes": [
+                    {
+                        "type": "oauth2",
+                        "scopes": [
+                            "openid",
+                            "email",
+                            "profile"
+                        ]
+                    }
+                ],
+                "_meta": {
+                    "securitySchemes": [
+                        {
+                            "type": "oauth2",
+                            "scopes": [
+                                "openid",
+                                "email",
+                                "profile"
+                            ]
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "jsonrpc": "2.0",
+    "id": 1
+}

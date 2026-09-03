@@ -1,0 +1,23 @@
+generated: '2026-09-03'
+method: derived
+source: openapi/_original/loa-healthcare-pricing-api-openapi.json + https://www.loacare.com/mcp + site probes 2026-09-03
+versioning:
+  scheme: url-path
+  current: v1
+  note: REST base is /api/v1; OpenAPI info.version is 0.1.0. MCP server is registry version 1.0.1.
+deprecation_policy:
+  published: false
+  note: No deprecation or sunset policy found; no deprecated operations in the OpenAPI; no Sunset/Deprecation header documented.
+status_page:
+  published: false
+  note: "No status page found: /status 404, status.loacare.com does not resolve."
+changelog:
+  published: false
+  note: "/changelog 404; the dataset GitHub mirror carries dated releases (v2026-07-29) but there is no API changelog."
+sla:
+  published: false
+data_freshness:
+  note: >-
+    Methodology page states hospitals must update MRF files at least annually and Loa continuously
+    processes new files; coverage as of 2026-07-27 was 4,702 hospital profiles and 116,655 current
+    price rows.

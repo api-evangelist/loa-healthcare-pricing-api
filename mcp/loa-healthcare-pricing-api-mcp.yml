@@ -1,0 +1,62 @@
+generated: '2026-09-03'
+method: searched
+source: https://www.loacare.com/mcp
+name: LOA Healthcare Pricing
+status: official
+protocol: streamable-http
+version: 1.0.1
+deployment:
+  mode: remote
+  endpoint: https://www.loacare.com/api/mcp
+  auth: oauth
+  verified: probed
+discovery:
+  well_known: https://www.loacare.com/.well-known/mcp.json
+  registry: https://registry.modelcontextprotocol.io/?q=io.github.aanari%2Floacare-healthcare-pricing
+  registry_name: io.github.aanari/loacare-healthcare-pricing
+  registry_status: active
+  repository: https://github.com/aanari/loacare-healthcare-pricing
+  documentation: https://www.loacare.com/mcp
+authentication:
+  type: oauth2
+  note: >-
+    OAuth 2.1 with dynamic client registration. tools/list answers anonymously (probed 2026-09-03,
+    HTTP 200 with full inputSchemas); tool CALLS require a bearer token. Resource metadata at
+    /.well-known/oauth-protected-resource names a Supabase-hosted authorization server with scopes
+    openid, email, profile.
+  resource_metadata: https://www.loacare.com/.well-known/oauth-protected-resource
+  authorization_server: https://eknkfyyjqxuvgdzocccu.supabase.co/auth/v1
+tools_file: mcp/loa-healthcare-pricing-api-mcp-tools.json
+tools_count: 12
+tools:
+  - name: search_cpt_codes
+    description: Search for medical procedure codes (CPT/HCPCS) by name, description, or code number
+  - name: suggest_procedures
+    description: Get AI-powered procedure suggestions from a natural language description
+  - name: search_providers
+    description: Search for healthcare providers by name, specialty, or location
+  - name: get_pricing_estimate
+    description: Get estimated costs for medical procedures based on hospital pricing data
+  - name: get_market_pricing
+    description: Get market average pricing for procedures including cash pay and insurance rates
+  - name: search_hospitals
+    description: Search for hospitals by location or name
+  - name: get_hospital_pricing
+    description: Get source-labeled hospital pricing, including Published MRF rates and reviewed provider overlays
+  - name: search_entities
+    description: Search Loa runtime hospital and provider entity pages by name, state, or type
+  - name: get_entity_profile
+    description: Get one Loa hospital or provider entity profile by slug or id with field-level provenance
+  - name: get_entity_prices
+    description: Get Published MRF and Loa Verified Provider Price data for one Loa entity
+  - name: explain_price_sources
+    description: Explain source labels, confidence, caveats, and comparable MRF prices for one Loa entity
+  - name: submit_entity_update_request
+    description: Submit a provider or hospital profile, listing, or price correction for Loa review
+x-evidence:
+  fetched: '2026-09-03'
+  probes:
+    - "POST https://www.loacare.com/api/mcp tools/list -> HTTP 200, 12 tools with inputSchemas (anonymous)"
+    - "GET https://www.loacare.com/.well-known/mcp.json -> HTTP 200"
+    - "GET https://www.loacare.com/.well-known/oauth-protected-resource -> HTTP 200"
+    - "GET https://registry.modelcontextprotocol.io/v0/servers?search=loacare -> HTTP 200, io.github.aanari/loacare-healthcare-pricing v1.0.1 active"

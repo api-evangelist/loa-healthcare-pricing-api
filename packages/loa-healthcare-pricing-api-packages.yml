@@ -1,0 +1,11 @@
+generated: '2026-09-03'
+method: searched
+source: registry.npmjs.org search, pypi.org, docs at https://www.loacare.com/api-partnership and https://www.loacare.com/mcp, github.com/aanari
+package_count: 0
+packages: []
+note: >-
+  No first-party client libraries exist. npm search for "loacare" returns nothing; pypi.org/pypi/loacare
+  404s; the docs publish no SDK links. The only GitHub artifacts are aanari/loacare-healthcare-pricing
+  (MCP server metadata/docs, not a client) and aanari/loa-healthcare-price-benchmarks (dataset mirror,
+  release v2026-07-29). Integration is direct REST (OpenAPI 3.1) or the hosted remote MCP server —
+  which needs no install.

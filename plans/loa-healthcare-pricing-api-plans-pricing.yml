@@ -1,0 +1,38 @@
+generated: '2026-09-03'
+method: searched
+source: https://www.loacare.com/pricing
+note: >-
+  Published pricing covers the consumer product only. API access is partnership-based with no published
+  price list — the api-partnership page routes developers to "Get partnership access", and public read
+  routes plus small reviewed update submissions are free without a key; metered clients use an optional
+  provider API key on unpublished terms. MCP tiers (authenticated / authenticated plus suggestions /
+  linked provider) are documented without numeric limits or prices.
+plan_count: 2
+plans:
+  - name: Free
+    price: 0
+    currency: USD
+    billing_period: forever
+    audience: consumer
+    includes:
+      - Medical procedure cost comparisons
+      - Local provider search
+      - Source-labeled hospital price rows
+      - Community support
+  - name: Premium
+    price: 10
+    currency: USD
+    billing_period: month
+    audience: consumer
+    includes:
+      - Everything in Free
+      - Insurance plan integration
+      - Personalized recommendations
+      - Advanced cost tracking
+      - Priority support
+    note: First-month satisfaction guarantee with full refund.
+api_access:
+  model: partnership
+  published_pricing: false
+  free_tier: Public read routes and small reviewed update submissions work without an API key.
+  contact: https://www.loacare.com/api-partnership

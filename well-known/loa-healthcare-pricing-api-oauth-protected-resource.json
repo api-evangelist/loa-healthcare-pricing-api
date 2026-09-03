@@ -1,0 +1,16 @@
+{
+    "resource": "https://www.loacare.com/api/mcp",
+    "authorization_servers": [
+        "https://eknkfyyjqxuvgdzocccu.supabase.co/auth/v1"
+    ],
+    "scopes_supported": [
+        "openid",
+        "email",
+        "profile"
+    ],
+    "bearer_methods_supported": [
+        "header"
+    ],
+    "resource_name": "LOA Healthcare Pricing",
+    "resource_documentation": "https://www.loacare.com/mcp"
+}

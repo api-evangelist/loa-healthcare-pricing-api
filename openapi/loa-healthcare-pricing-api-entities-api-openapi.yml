@@ -213,152 +213,6 @@ paths:
       - Entities
 components:
   schemas:
-    Pagination:
-      type: object
-      required:
-      - limit
-      - returned
-      properties:
-        limit:
-          type: integer
-        returned:
-          type: integer
-    EntitySearchResponse:
-      type: object
-      required:
-      - request_id
-      - results
-      - pagination
-      - provenance
-      properties:
-        request_id:
-          type: string
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/EntitySearchResult'
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-        provenance:
-          $ref: '#/components/schemas/Provenance'
-    EntityPricesResponse:
-      type: object
-      required:
-      - request_id
-      - entity
-      - prices
-      - pagination
-      - provenance
-      properties:
-        request_id:
-          type: string
-        entity:
-          $ref: '#/components/schemas/ResolvedEntity'
-        prices:
-          type: array
-          items:
-            $ref: '#/components/schemas/ResolvedPrice'
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-        provenance:
-          $ref: '#/components/schemas/Provenance'
-    ResolvedEntity:
-      type: object
-      required:
-      - id
-      - entityType
-      - slug
-      - canonicalName
-      properties:
-        id:
-          type: string
-          format: uuid
-        entityType:
-          type: string
-          enum:
-          - hospital
-          - provider
-        slug:
-          type: string
-        canonicalName:
-          type: string
-        city:
-          type:
-          - string
-          - 'null'
-        state:
-          type:
-          - string
-          - 'null'
-    Provenance:
-      type: object
-      required:
-      - authority
-      - confidence
-      - caveats
-      properties:
-        authority:
-          type: string
-        source_type:
-          type: string
-        sourceType:
-          type: string
-        source_label:
-          type: string
-        sourceLabel:
-          type: string
-        sourceUpdatedAt:
-          type: string
-        loaReviewedAt:
-          type: string
-        confidence:
-          type: string
-          enum:
-          - high
-          - medium
-          - low
-        caveats:
-          type: array
-          items:
-            type: string
-    EntityProfileResponse:
-      type: object
-      required:
-      - request_id
-      - entity
-      - provenance
-      - profile_field_provenance
-      properties:
-        request_id:
-          type: string
-        entity:
-          $ref: '#/components/schemas/EntityProfile'
-        provenance:
-          $ref: '#/components/schemas/Provenance'
-        profile_field_provenance:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ProfileFieldProvenance'
-    ErrorResponse:
-      type: object
-      required:
-      - request_id
-      - error
-      properties:
-        request_id:
-          type: string
-        error:
-          $ref: '#/components/schemas/NamedError'
-    NamedError:
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-        message:
-          type: string
     ComparableResolvedPrice:
       type: object
       required:
@@ -407,13 +261,62 @@ components:
           type: string
         provenance:
           $ref: '#/components/schemas/Provenance'
-    ResolvedPrice:
-      allOf:
-      - $ref: '#/components/schemas/ComparableResolvedPrice'
-      - type: object
-        properties:
-          comparableMrfPrice:
-            $ref: '#/components/schemas/ComparableResolvedPrice'
+    EntityProfileResponse:
+      type: object
+      required:
+      - request_id
+      - entity
+      - provenance
+      - profile_field_provenance
+      properties:
+        request_id:
+          type: string
+        entity:
+          $ref: '#/components/schemas/EntityProfile'
+        provenance:
+          $ref: '#/components/schemas/Provenance'
+        profile_field_provenance:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ProfileFieldProvenance'
+    EntitySearchResponse:
+      type: object
+      required:
+      - request_id
+      - results
+      - pagination
+      - provenance
+      properties:
+        request_id:
+          type: string
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntitySearchResult'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        provenance:
+          $ref: '#/components/schemas/Provenance'
+    ProfileFieldProvenance:
+      type: object
+      required:
+      - authority
+      - source_type
+      - source_label
+      - confidence
+      properties:
+        authority:
+          type: string
+        source_type:
+          type: string
+        source_label:
+          type: string
+        confidence:
+          type: string
+        loa_reviewed_at:
+          type:
+          - string
+          - 'null'
     EntityProfile:
       type: object
       required:
@@ -483,6 +386,62 @@ components:
         metadata:
           type: object
           additionalProperties: true
+    ResolvedPrice:
+      allOf:
+      - $ref: '#/components/schemas/ComparableResolvedPrice'
+      - type: object
+        properties:
+          comparableMrfPrice:
+            $ref: '#/components/schemas/ComparableResolvedPrice'
+    EntityPricesResponse:
+      type: object
+      required:
+      - request_id
+      - entity
+      - prices
+      - pagination
+      - provenance
+      properties:
+        request_id:
+          type: string
+        entity:
+          $ref: '#/components/schemas/ResolvedEntity'
+        prices:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResolvedPrice'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        provenance:
+          $ref: '#/components/schemas/Provenance'
+    ResolvedEntity:
+      type: object
+      required:
+      - id
+      - entityType
+      - slug
+      - canonicalName
+      properties:
+        id:
+          type: string
+          format: uuid
+        entityType:
+          type: string
+          enum:
+          - hospital
+          - provider
+        slug:
+          type: string
+        canonicalName:
+          type: string
+        city:
+          type:
+          - string
+          - 'null'
+        state:
+          type:
+          - string
+          - 'null'
     EntitySearchResult:
       type: object
       required:
@@ -525,26 +484,67 @@ components:
           - 'null'
         updated_at:
           type: string
-    ProfileFieldProvenance:
+    ErrorResponse:
+      type: object
+      required:
+      - request_id
+      - error
+      properties:
+        request_id:
+          type: string
+        error:
+          $ref: '#/components/schemas/NamedError'
+    NamedError:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    Pagination:
+      type: object
+      required:
+      - limit
+      - returned
+      properties:
+        limit:
+          type: integer
+        returned:
+          type: integer
+    Provenance:
       type: object
       required:
       - authority
-      - source_type
-      - source_label
       - confidence
+      - caveats
       properties:
         authority:
           type: string
         source_type:
           type: string
+        sourceType:
+          type: string
         source_label:
+          type: string
+        sourceLabel:
+          type: string
+        sourceUpdatedAt:
+          type: string
+        loaReviewedAt:
           type: string
         confidence:
           type: string
-        loa_reviewed_at:
-          type:
-          - string
-          - 'null'
+          enum:
+          - high
+          - medium
+          - low
+        caveats:
+          type: array
+          items:
+            type: string
   securitySchemes:
     ProviderApiKey:
       type: apiKey

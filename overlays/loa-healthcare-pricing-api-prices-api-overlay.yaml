@@ -1,0 +1,16 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Loa prices-api
+  version: 1.0.0
+x-provenance:
+  generated: '2026-09-03'
+  method: generated
+  source: apis.json baseURL + live probe of https://www.loacare.com/api/v1/openapi.json (2026-09-03)
+extends: openapi/loa-healthcare-pricing-api-prices-api-openapi.yml
+actions:
+  - target: $.servers[0]
+    description: >-
+      Resolve the relative server url /api/v1 to the absolute production host the provider publishes in
+      its APIs.json (baseURL https://www.loacare.com/api/v1) and answers live probes on.
+    update:
+      url: https://www.loacare.com/api/v1

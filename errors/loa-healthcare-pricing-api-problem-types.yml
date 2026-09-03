@@ -1,0 +1,60 @@
+generated: '2026-09-03'
+method: derived
+source: openapi/_original/loa-healthcare-pricing-api-openapi.json (4xx/5xx responses + ErrorResponse/NamedError schemas)
+format: custom
+envelope: >-
+  application/json {request_id, error: {code, message}} — every error carries a request_id and a stable
+  named code (NamedError schema). Not RFC 9457 problem+json.
+problem_types:
+  - code: InvalidEntitySearch
+    status: 400
+    operations: [searchEntities]
+    remediation: Fix query parameters; unknown state names/codes are rejected.
+  - code: InvalidEntityType
+    status: 400
+    operations: [getEntity, getEntityPrices]
+    remediation: type must be hospital or provider.
+  - code: InvalidEntityPricesRequest
+    status: 400
+    operations: [getEntityPrices]
+    remediation: Check cpt_code list (max 25 codes) and limit (1-100).
+  - code: InvalidPriceCompareRequest
+    status: 400
+    operations: [comparePrices]
+    remediation: entity (max 10 slugs) and cpt_code (max 10 codes) are required.
+  - code: UpdateRequestValidationFailed
+    status: 400
+    operations: [submitEntityUpdate]
+    remediation: Validate required submitter_email/request_type and price_items constraints (max 100 items, 25KB proposed_changes).
+  - code: InvalidAnalyticsEvent
+    status: 400
+    operations: [recordEntityAnalytics]
+    remediation: entity_page_id and a valid event_type are required.
+  - code: ApiClientUnauthorized
+    status: 401
+    operations: [searchEntities, getEntity, getEntityPrices, comparePrices, submitEntityUpdate]
+    remediation: The x-api-key sent is missing/invalid; public reads also work with no key at all.
+  - code: ApiClientDisabled
+    status: 403
+    operations: [searchEntities, getEntity, getEntityPrices, comparePrices, submitEntityUpdate]
+    remediation: The provider API key has been disabled; contact Loa.
+  - code: ApiClientScopeDenied
+    status: 403
+    operations: [searchEntities, getEntity, getEntityPrices, comparePrices, submitEntityUpdate]
+    remediation: The key lacks the scope for this route.
+  - code: EntityNotFound
+    status: 404
+    operations: [getEntity, getEntityPrices, comparePrices, submitEntityUpdate]
+    remediation: Use an exact Loa slug or entity_pages.id from a search result.
+  - code: ApiRateLimited
+    status: 429
+    operations: [searchEntities, getEntity, getEntityPrices, comparePrices, submitEntityUpdate]
+    remediation: Back off and retry; no rate-limit response headers are documented.
+  - code: AnalyticsRateLimited
+    status: 429
+    operations: [recordEntityAnalytics]
+    remediation: Back off; analytics beacons are rate limited separately.
+  - code: AnalyticsWriteFailed
+    status: 500
+    operations: [recordEntityAnalytics]
+    remediation: Server-side write failure; safe to retry with the same dedupe_key.

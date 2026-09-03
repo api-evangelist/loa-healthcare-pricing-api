@@ -56,16 +56,16 @@ paths:
       - Entity Analytics
 components:
   schemas:
-    NamedError:
+    EntityAnalyticsResponse:
       type: object
       required:
-      - code
-      - message
+      - request_id
+      - ok
       properties:
-        code:
+        request_id:
           type: string
-        message:
-          type: string
+        ok:
+          type: boolean
     ErrorResponse:
       type: object
       required:
@@ -116,16 +116,16 @@ components:
         dedupe_key:
           type: string
           maxLength: 200
-    EntityAnalyticsResponse:
+    NamedError:
       type: object
       required:
-      - request_id
-      - ok
+      - code
+      - message
       properties:
-        request_id:
+        code:
           type: string
-        ok:
-          type: boolean
+        message:
+          type: string
   securitySchemes:
     ProviderApiKey:
       type: apiKey

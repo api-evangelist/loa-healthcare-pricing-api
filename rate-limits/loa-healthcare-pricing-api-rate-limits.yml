@@ -1,0 +1,26 @@
+generated: '2026-09-03'
+method: searched
+source: https://www.loacare.com/mcp + openapi/_original/loa-healthcare-pricing-api-openapi.json
+limit_count: 0
+note: >-
+  No numeric rate limits are published. The OpenAPI documents 429 responses with named codes
+  (ApiRateLimited on REST routes, AnalyticsRateLimited on the analytics beacon) but no
+  X-RateLimit-*/RateLimit-*/Retry-After headers. The MCP docs publish a tier TABLE without numbers:
+  "Authenticated" (monthly limit, read-only lookup tools), "Authenticated plus suggestions" (monthly
+  suggestion limit for suggest_procedures), and "Linked provider" (higher monthly limit for
+  submit_entity_update_request). An agent gets no runtime signal beyond the 429 status itself.
+limits: []
+exhaustion:
+  status: 429
+  codes: [ApiRateLimited, AnalyticsRateLimited]
+  headers_documented: []
+tiers:
+  - name: Authenticated
+    limit: monthly limit (number not published)
+    tools: read-only lookup tools
+  - name: Authenticated plus suggestions
+    limit: monthly suggestion limit (number not published)
+    tools: suggest_procedures
+  - name: Linked provider
+    limit: higher monthly limit (number not published)
+    tools: submit_entity_update_request with verified affiliation signals
