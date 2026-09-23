@@ -1,10 +1,7 @@
 {
   "provider": "loa-healthcare-pricing-api",
   "sources": [
-    "loa-healthcare-pricing-api-entities-api-openapi.yml",
-    "loa-healthcare-pricing-api-entity-analytics-api-openapi.yml",
-    "loa-healthcare-pricing-api-entity-updates-api-openapi.yml",
-    "loa-healthcare-pricing-api-prices-api-openapi.yml"
+    "_original/loa-healthcare-pricing-api-openapi.json"
   ],
   "outputs": [
     "loa-healthcare-pricing-api-entities-api-openapi.yml",
@@ -16,7 +13,24 @@
   "errors": [],
   "warnings": [],
   "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "loa-healthcare-pricing-api-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "loa-healthcare-pricing-api-openapi.json: tagged paths GET /entities/search -> Entities",
+    "loa-healthcare-pricing-api-openapi.json: tagged paths GET /entities/{slug} -> Entities",
+    "loa-healthcare-pricing-api-openapi.json: tagged paths GET /entities/{slug}/prices -> Entities",
+    "loa-healthcare-pricing-api-openapi.json: tagged paths GET /prices/compare -> Prices",
+    "loa-healthcare-pricing-api-openapi.json: tagged paths POST /entity-updates -> Entity Updates",
+    "loa-healthcare-pricing-api-openapi.json: tagged paths POST /entity-analytics -> Entity Analytics",
+    "loa-healthcare-pricing-api-openapi.json: declared missing tag: Entities",
+    "loa-healthcare-pricing-api-openapi.json: declared missing tag: Entity Analytics",
+    "loa-healthcare-pricing-api-openapi.json: declared missing tag: Entity Updates",
+    "loa-healthcare-pricing-api-openapi.json: declared missing tag: Prices",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "loa-healthcare-pricing-api-entities-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "loa-healthcare-pricing-api-entity-analytics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "loa-healthcare-pricing-api-entity-updates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "loa-healthcare-pricing-api-prices-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
