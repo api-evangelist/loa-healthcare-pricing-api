@@ -82,46 +82,6 @@ paths:
       - Prices
 components:
   schemas:
-    PriceCompareResponse:
-      type: object
-      required:
-      - request_id
-      - query
-      - comparisons
-      - provenance
-      properties:
-        request_id:
-          type: string
-        query:
-          type: object
-          additionalProperties: true
-        comparisons:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        provenance:
-          $ref: '#/components/schemas/Provenance'
-    ErrorResponse:
-      type: object
-      required:
-      - request_id
-      - error
-      properties:
-        request_id:
-          type: string
-        error:
-          $ref: '#/components/schemas/NamedError'
-    NamedError:
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-        message:
-          type: string
     Provenance:
       type: object
       required:
@@ -153,6 +113,46 @@ components:
           type: array
           items:
             type: string
+    NamedError:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    ErrorResponse:
+      type: object
+      required:
+      - request_id
+      - error
+      properties:
+        request_id:
+          type: string
+        error:
+          $ref: '#/components/schemas/NamedError'
+    PriceCompareResponse:
+      type: object
+      required:
+      - request_id
+      - query
+      - comparisons
+      - provenance
+      properties:
+        request_id:
+          type: string
+        query:
+          type: object
+          additionalProperties: true
+        comparisons:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        provenance:
+          $ref: '#/components/schemas/Provenance'
   securitySchemes:
     ProviderApiKey:
       type: apiKey

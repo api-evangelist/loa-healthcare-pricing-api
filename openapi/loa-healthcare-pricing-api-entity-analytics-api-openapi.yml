@@ -66,6 +66,16 @@ components:
           type: string
         message:
           type: string
+    EntityAnalyticsResponse:
+      type: object
+      required:
+      - request_id
+      - ok
+      properties:
+        request_id:
+          type: string
+        ok:
+          type: boolean
     ErrorResponse:
       type: object
       required:
@@ -116,16 +126,6 @@ components:
         dedupe_key:
           type: string
           maxLength: 200
-    EntityAnalyticsResponse:
-      type: object
-      required:
-      - request_id
-      - ok
-      properties:
-        request_id:
-          type: string
-        ok:
-          type: boolean
   securitySchemes:
     ProviderApiKey:
       type: apiKey

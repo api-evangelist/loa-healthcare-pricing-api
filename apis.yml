@@ -32,7 +32,7 @@ tags:
 - CPT
 - HCPCS
 - MCP
-- agent-native
+- Agent-Native
 - OpenAPI
 - llms-txt
 tags_raw:
@@ -67,7 +67,7 @@ apis:
   - CPT
   - HCPCS
   - MCP
-  - agent-native
+  - Agent-Native
   - OpenAPI
   - llms-txt
   tags_raw:
