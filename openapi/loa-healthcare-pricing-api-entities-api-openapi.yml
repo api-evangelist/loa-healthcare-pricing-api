@@ -213,83 +213,22 @@ paths:
       - Entities
 components:
   schemas:
-    Pagination:
-      type: object
-      required:
-      - limit
-      - returned
-      properties:
-        limit:
-          type: integer
-        returned:
-          type: integer
-    EntityPricesResponse:
+    EntitySearchResponse:
       type: object
       required:
       - request_id
-      - entity
-      - prices
+      - results
       - pagination
       - provenance
       properties:
         request_id:
           type: string
-        entity:
-          $ref: '#/components/schemas/ResolvedEntity'
-        prices:
+        results:
           type: array
           items:
-            $ref: '#/components/schemas/ResolvedPrice'
+            $ref: '#/components/schemas/EntitySearchResult'
         pagination:
           $ref: '#/components/schemas/Pagination'
-        provenance:
-          $ref: '#/components/schemas/Provenance'
-    ComparableResolvedPrice:
-      type: object
-      required:
-      - entityPageId
-      - cptCode
-      - codeType
-      - priceCents
-      - priceKind
-      - label
-      - provenance
-      properties:
-        entityPageId:
-          type: string
-          format: uuid
-        cptCode:
-          type: string
-        codeType:
-          type: string
-        procedureDescription:
-          type: string
-        serviceCategory:
-          type: string
-        priceCents:
-          type:
-          - integer
-          - 'null'
-        priceKind:
-          type: string
-        label:
-          type: string
-        payerName:
-          type: string
-        planName:
-          type: string
-        setting:
-          type: string
-        billingClass:
-          type: string
-        component:
-          type: string
-        sourceRowId:
-          type: string
-        basePriceIndexId:
-          type: string
-        overlayRelationship:
-          type: string
         provenance:
           $ref: '#/components/schemas/Provenance'
     EntitySearchResult:
@@ -334,69 +273,37 @@ components:
           - 'null'
         updated_at:
           type: string
-    ResolvedPrice:
-      allOf:
-      - $ref: '#/components/schemas/ComparableResolvedPrice'
-      - type: object
-        properties:
-          comparableMrfPrice:
-            $ref: '#/components/schemas/ComparableResolvedPrice'
-    EntityProfileResponse:
+    Provenance:
       type: object
       required:
-      - request_id
-      - entity
-      - provenance
-      - profile_field_provenance
+      - authority
+      - confidence
+      - caveats
       properties:
-        request_id:
+        authority:
           type: string
-        entity:
-          $ref: '#/components/schemas/EntityProfile'
-        provenance:
-          $ref: '#/components/schemas/Provenance'
-        profile_field_provenance:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ProfileFieldProvenance'
-    EntitySearchResponse:
-      type: object
-      required:
-      - request_id
-      - results
-      - pagination
-      - provenance
-      properties:
-        request_id:
+        source_type:
           type: string
-        results:
+        sourceType:
+          type: string
+        source_label:
+          type: string
+        sourceLabel:
+          type: string
+        sourceUpdatedAt:
+          type: string
+        loaReviewedAt:
+          type: string
+        confidence:
+          type: string
+          enum:
+          - high
+          - medium
+          - low
+        caveats:
           type: array
           items:
-            $ref: '#/components/schemas/EntitySearchResult'
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-        provenance:
-          $ref: '#/components/schemas/Provenance'
-    NamedError:
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    ErrorResponse:
-      type: object
-      required:
-      - request_id
-      - error
-      properties:
-        request_id:
-          type: string
-        error:
-          $ref: '#/components/schemas/NamedError'
+            type: string
     EntityProfile:
       type: object
       required:
@@ -466,6 +373,150 @@ components:
         metadata:
           type: object
           additionalProperties: true
+    NamedError:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    EntityProfileResponse:
+      type: object
+      required:
+      - request_id
+      - entity
+      - provenance
+      - profile_field_provenance
+      properties:
+        request_id:
+          type: string
+        entity:
+          $ref: '#/components/schemas/EntityProfile'
+        provenance:
+          $ref: '#/components/schemas/Provenance'
+        profile_field_provenance:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ProfileFieldProvenance'
+    ProfileFieldProvenance:
+      type: object
+      required:
+      - authority
+      - source_type
+      - source_label
+      - confidence
+      properties:
+        authority:
+          type: string
+        source_type:
+          type: string
+        source_label:
+          type: string
+        confidence:
+          type: string
+        loa_reviewed_at:
+          type:
+          - string
+          - 'null'
+    EntityPricesResponse:
+      type: object
+      required:
+      - request_id
+      - entity
+      - prices
+      - pagination
+      - provenance
+      properties:
+        request_id:
+          type: string
+        entity:
+          $ref: '#/components/schemas/ResolvedEntity'
+        prices:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResolvedPrice'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        provenance:
+          $ref: '#/components/schemas/Provenance'
+    ErrorResponse:
+      type: object
+      required:
+      - request_id
+      - error
+      properties:
+        request_id:
+          type: string
+        error:
+          $ref: '#/components/schemas/NamedError'
+    ResolvedPrice:
+      allOf:
+      - $ref: '#/components/schemas/ComparableResolvedPrice'
+      - type: object
+        properties:
+          comparableMrfPrice:
+            $ref: '#/components/schemas/ComparableResolvedPrice'
+    ComparableResolvedPrice:
+      type: object
+      required:
+      - entityPageId
+      - cptCode
+      - codeType
+      - priceCents
+      - priceKind
+      - label
+      - provenance
+      properties:
+        entityPageId:
+          type: string
+          format: uuid
+        cptCode:
+          type: string
+        codeType:
+          type: string
+        procedureDescription:
+          type: string
+        serviceCategory:
+          type: string
+        priceCents:
+          type:
+          - integer
+          - 'null'
+        priceKind:
+          type: string
+        label:
+          type: string
+        payerName:
+          type: string
+        planName:
+          type: string
+        setting:
+          type: string
+        billingClass:
+          type: string
+        component:
+          type: string
+        sourceRowId:
+          type: string
+        basePriceIndexId:
+          type: string
+        overlayRelationship:
+          type: string
+        provenance:
+          $ref: '#/components/schemas/Provenance'
+    Pagination:
+      type: object
+      required:
+      - limit
+      - returned
+      properties:
+        limit:
+          type: integer
+        returned:
+          type: integer
     ResolvedEntity:
       type: object
       required:
@@ -491,57 +542,6 @@ components:
           - string
           - 'null'
         state:
-          type:
-          - string
-          - 'null'
-    Provenance:
-      type: object
-      required:
-      - authority
-      - confidence
-      - caveats
-      properties:
-        authority:
-          type: string
-        source_type:
-          type: string
-        sourceType:
-          type: string
-        source_label:
-          type: string
-        sourceLabel:
-          type: string
-        sourceUpdatedAt:
-          type: string
-        loaReviewedAt:
-          type: string
-        confidence:
-          type: string
-          enum:
-          - high
-          - medium
-          - low
-        caveats:
-          type: array
-          items:
-            type: string
-    ProfileFieldProvenance:
-      type: object
-      required:
-      - authority
-      - source_type
-      - source_label
-      - confidence
-      properties:
-        authority:
-          type: string
-        source_type:
-          type: string
-        source_label:
-          type: string
-        confidence:
-          type: string
-        loa_reviewed_at:
           type:
           - string
           - 'null'

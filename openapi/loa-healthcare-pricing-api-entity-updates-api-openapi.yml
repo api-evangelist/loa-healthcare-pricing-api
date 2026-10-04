@@ -150,48 +150,6 @@ components:
           maxItems: 100
           items:
             $ref: '#/components/schemas/EntityUpdatePriceItem'
-    EntityUpdateResponse:
-      type: object
-      required:
-      - request_id
-      - update_request_id
-      - status
-      - reused_existing
-      properties:
-        request_id:
-          type: string
-        update_request_id:
-          type: string
-          format: uuid
-        entity_page_id:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        status:
-          type: string
-        reused_existing:
-          type: boolean
-    NamedError:
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    ErrorResponse:
-      type: object
-      required:
-      - request_id
-      - error
-      properties:
-        request_id:
-          type: string
-        error:
-          $ref: '#/components/schemas/NamedError'
     EntityUpdatePriceItem:
       type: object
       required:
@@ -251,6 +209,48 @@ components:
         price_notes:
           type: string
           maxLength: 1000
+    EntityUpdateResponse:
+      type: object
+      required:
+      - request_id
+      - update_request_id
+      - status
+      - reused_existing
+      properties:
+        request_id:
+          type: string
+        update_request_id:
+          type: string
+          format: uuid
+        entity_page_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        status:
+          type: string
+        reused_existing:
+          type: boolean
+    NamedError:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    ErrorResponse:
+      type: object
+      required:
+      - request_id
+      - error
+      properties:
+        request_id:
+          type: string
+        error:
+          $ref: '#/components/schemas/NamedError'
   securitySchemes:
     ProviderApiKey:
       type: apiKey
