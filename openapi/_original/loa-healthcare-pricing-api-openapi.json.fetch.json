@@ -1,0 +1,12 @@
+{
+ "url": "https://www.loacare.com/api/v1/openapi.json",
+ "requested_url": "https://www.loacare.com/api/v1/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 18036,
+ "sha256": "daa3a7e12b1e247e9af356b1bb5f7f8b91c26bc3974ebf21ada7c75f4f0e2ef6",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}
