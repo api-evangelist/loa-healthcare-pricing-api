@@ -65,3 +65,36 @@ x-evidence:
   - GET https://www.loacare.com/.well-known/oauth-protected-resource -> HTTP 200
   - GET https://registry.modelcontextprotocol.io/v0/servers?search=loacare -> HTTP 200, io.github.aanari/loacare-healthcare-pricing
     v1.0.1 active
+tool_quality:
+  tool_count: 12
+  tokens_total: 12421
+  tokens_per_tool_median: 896
+  heavy_tools:
+  - name: get_entity_prices
+    tokens: 1519
+  - name: compare_local_prices
+    tokens: 1500
+  - name: get_market_pricing
+    tokens: 1459
+  - name: submit_entity_update_request
+    tokens: 1309
+  heavy_tool_count: 4
+  params_total: 54
+  params_undescribed: 0
+  params_described_pct: 100.0
+  tools_with_undescribed_params: 0
+  tools_annotated: 12
+  annotated_pct: 100.0
+  state_changing_unhinted: []
+  tools_missing_schema: 0
+  short_descriptions: 0
+  duplicate_descriptions: 0
+  duplicate_names: 0
+  nonportable_names: []
+  output_schema_count: 12
+  token_estimate: chars/3.6 of each compact tool definition
+  source: mcp/loa-healthcare-pricing-api-mcp-tools.json
+  measured: '2026-10-20'
+  scored: false
+  note: Facts from the saved tools/list capture (mcp_tool_quality.py); recorded, not scored. Checks learned
+    from Glimind's agent-readiness audit.
