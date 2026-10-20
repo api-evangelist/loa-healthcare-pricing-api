@@ -33,30 +33,65 @@ tools_file: mcp/loa-healthcare-pricing-api-mcp-tools.json
 tools_count: 12
 tools:
 - name: search_cpt_codes
-  description: Search for medical procedure codes (CPT/HCPCS) by name, description, or code number
-- name: suggest_procedures
-  description: Get AI-powered procedure suggestions from a natural language description
+  description: Canonical code-lookup tool for this server. Search Loa's CPT/HCPCS index using exact codes,
+    clinical terms, or consumer phrases. Use this first when the user does not already know the CPT code,
+    before calling pricing tools.
 - name: search_providers
-  description: Search for healthcare providers by name, specialty, or location
+  description: Search public CMS NPI Registry data for clinicians and healthcare organizations by specialty,
+    name, or location. Use returned provenance to understand the registry source and scope. Use this for
+    provider lookup, not pricing.
 - name: get_pricing_estimate
-  description: Get estimated costs for medical procedures based on hospital pricing data
+  description: Quick cash-price ballpark for one or more CPT codes, using the median cash price across
+    hospitals in the state (from zip_code) or nationally. priceRange is the typical range (25th to 75th
+    percentile of hospitals). Codes without enough data return insufficient_data and are listed in missingCodes;
+    the total is null unless every code has data. Never fill gaps with your own estimate. For insurer
+    rates or hospital-specific prices, use get_market_pricing or get_hospital_pricing.
 - name: get_market_pricing
-  description: Get market average pricing for procedures including cash pay and insurance rates
+  description: 'Preferred benchmark pricing tool. Returns hospital-level market statistics for CPT codes
+    from Loa''s published hospital price-transparency data: cash/self-pay prices, list prices (gross charges
+    before discounts), overall insurer-negotiated rates, and rates for the most common insurers. Each
+    hospital counts once. Lead with the median and the p25-p75 range rather than min or max. Figures are
+    statewide or national, never local to a ZIP code. When status is insufficient_data, say Loa doesn''t
+    have enough data instead of estimating, and always relay the limitations. Negotiated rates are not
+    out-of-pocket costs.'
 - name: search_hospitals
-  description: Search for hospitals by location or name
+  description: Search Loa's hospital directory by name or location and return hospital IDs plus address
+    details. Use the returned hospital_ids with get_hospital_pricing to fetch source-labeled Published
+    MRF and reviewed overlay prices.
 - name: get_hospital_pricing
-  description: Get source-labeled hospital pricing, including Published MRF rates and reviewed provider
-    overlays
+  description: Hospital-specific pricing tool for source-labeled Loa runtime data. Returns source-labeled
+    Published MRF prices and Loa Verified Provider Price overlays for CPT codes. cash_price is the cash/self-pay
+    price, list_price is the gross charge before discounts (most patients pay less), and insurance_prices
+    are payer-negotiated rates for the named plan, not out-of-pocket costs. Any of these can be null when
+    the hospital did not publish that price. Use this when comparing named hospitals or checking a quoted
+    hospital price against available source rows.
+- name: compare_local_prices
+  description: Compare hospitals near a ZIP code for one procedure code, ranked by price (or distance)
+    only. Without insurer, price is the published cash (self-pay) price. With insurer, price is that insurer's
+    negotiated rate, which is not the patient's out-of-pocket cost. Each option says what the price includes,
+    its source and date, distance in miles, and loa_link for booking or contact. Every priced hospital
+    in the radius is ranked before limit applies. Hospitals with no price for the code are counted in
+    hospitals_without_price; hospitals without a matching cash price or insurer rate are listed last with
+    price null. Get the code from search_cpt_codes first. Do not send member IDs or other personal details.
 - name: search_entities
-  description: Search Loa runtime hospital and provider entity pages by name, state, or type
-- name: get_entity_profile
-  description: Get one Loa hospital or provider entity profile by slug or id with field-level provenance
+  description: Search Loa runtime hospital and provider entity pages by name or state. Use this before
+    get_entity_prices when the user names a hospital or provider but does not know the exact Loa slug.
 - name: get_entity_prices
-  description: Get Published MRF and Loa Verified Provider Price data for one Loa entity
+  description: Return source-labeled prices for a Loa hospital or provider entity slug using the shared
+    resolver. Use search_entities first if the slug is unknown. Results include provenance and explicit
+    unavailable rows for requested CPT codes with no current price.
+- name: get_entity_profile
+  description: Return one Loa hospital or provider entity profile by exact slug or entity_pages.id. Includes
+    profile-field provenance so agents can distinguish source-file fields from Loa-reviewed overrides.
 - name: explain_price_sources
-  description: Explain source labels, confidence, caveats, and comparable MRF prices for one Loa entity
+  description: Explain the source labels, provenance, confidence, and caveats behind Loa prices for one
+    hospital or provider entity. Use this when an agent needs to tell a user why prices are MRF-published,
+    Loa-reviewed, estimated, or unavailable.
 - name: submit_entity_update_request
-  description: Submit a provider or hospital profile, listing, or price correction for Loa review
+  description: Submit a profile, listing, or price correction for Loa review without requiring a provider
+    portal. This is the only mutating provider/entity tool. It requires OAuth, captures submitter and
+    source evidence, records linked-provider status when available, and never changes public data until
+    Loa approves the request.
 x-evidence:
   fetched: '2026-09-03'
   probes:
