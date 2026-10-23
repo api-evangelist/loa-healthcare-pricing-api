@@ -135,3 +135,9 @@ components:
 externalDocs:
   description: Loa healthcare pricing API documentation
   url: https://www.loacare.com/api-partnership
+x-provenance:
+  method: harvested
+  publisher: Loa Healthcare Pricing API
+  source: https://www.loacare.com/api/v1/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
